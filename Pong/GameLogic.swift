@@ -8,17 +8,6 @@
 import Foundation
 import Combine
 
-struct GameScore {
-    var player: Int
-    var opponent: Int
-
-    static let initialScore = GameScore(player: 0, opponent: 0)
-    
-    func isGameOver(target: Int) -> Bool {
-        max(player, opponent) >= target
-    }
-}
-
 class GameLogic {
     private(set) var score: GameScore {
         didSet {
