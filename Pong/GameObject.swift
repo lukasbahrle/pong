@@ -7,14 +7,15 @@
 
 import Foundation
 
-
 extension GameObject {
-    static func ball(position: CGPoint, width: CGFloat, velocity: CGPoint)  -> GameObject {
-        .init(position: position, width: width, aspectRatio: 1.0, velocity: velocity)
+    static var ball: GameObject {
+        .init(position: .init(x: 0.5, y: 0.5), width: 0.05, aspectRatio: 1.0, velocity: .zero)
     }
     
-    static func paddle(position: CGPoint, width: CGFloat, velocity: CGPoint)  -> GameObject {
-        .init(position: position, width: width, aspectRatio: 0.2, velocity: velocity)
+    static func paddle(_ isPlayer: Bool) -> GameObject {
+        let width: CGFloat = 0.24
+        let y: CGFloat = isPlayer ? 0.9 : 0.1
+        return .init(position: .init(x: 0.5 - width * 0.5, y: y), width: width, aspectRatio: 0.2, velocity: .zero)
     }
 }
 

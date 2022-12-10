@@ -15,6 +15,12 @@ class GameLogic {
         }
     }
     
+    // MARK: - Game objects
+    
+    let ball: GameObject = .ball
+    let player: GameObject = .paddle(true)
+    let opponent: GameObject = .paddle(false)
+    
     let targetScore: Int
     let onScoreUpdate: (_ score: GameScore, _ isGameOver: Bool) -> Void
     
