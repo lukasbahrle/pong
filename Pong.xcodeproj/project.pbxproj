@@ -14,7 +14,6 @@
 		DADC0D762944CBF000B490EE /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D752944CBF000B490EE /* GameLogic.swift */; };
 		DADC0D782944D17100B490EE /* GameScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D772944D17100B490EE /* GameScore.swift */; };
 		DADC0D7A2944D1AD00B490EE /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D792944D1AD00B490EE /* GameObject.swift */; };
-		DADC0D7D2944D29A00B490EE /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D7C2944D29A00B490EE /* Ball.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,7 +25,6 @@
 		DADC0D752944CBF000B490EE /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		DADC0D772944D17100B490EE /* GameScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScore.swift; sourceTree = "<group>"; };
 		DADC0D792944D1AD00B490EE /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
-		DADC0D7C2944D29A00B490EE /* Ball.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +60,7 @@
 				DA9F94842943D24900595940 /* PongApp.swift */,
 				DA9F94862943D24900595940 /* ContentView.swift */,
 				DADC0D752944CBF000B490EE /* GameLogic.swift */,
-				DADC0D7B2944D24A00B490EE /* GameObjects */,
+				DADC0D792944D1AD00B490EE /* GameObject.swift */,
 				DADC0D772944D17100B490EE /* GameScore.swift */,
 				DA9F94882943D24B00595940 /* Assets.xcassets */,
 				DA9F948A2943D24B00595940 /* Preview Content */,
@@ -76,15 +74,6 @@
 				DA9F948B2943D24B00595940 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		DADC0D7B2944D24A00B490EE /* GameObjects */ = {
-			isa = PBXGroup;
-			children = (
-				DADC0D792944D1AD00B490EE /* GameObject.swift */,
-				DADC0D7C2944D29A00B490EE /* Ball.swift */,
-			);
-			path = GameObjects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,7 +146,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DADC0D7D2944D29A00B490EE /* Ball.swift in Sources */,
 				DADC0D782944D17100B490EE /* GameScore.swift in Sources */,
 				DADC0D762944CBF000B490EE /* GameLogic.swift in Sources */,
 				DA9F94872943D24900595940 /* ContentView.swift in Sources */,
