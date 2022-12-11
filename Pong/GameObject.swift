@@ -24,12 +24,28 @@ class GameObject {
     var velocity: CGPoint
     var width: CGFloat
     var aspectRatio: CGFloat
+    private var prevPosition: CGPoint
     
     init(position: CGPoint, width: CGFloat, aspectRatio: CGFloat, velocity: CGPoint) {
         self.position = position
         self.width = width
         self.velocity = velocity
         self.aspectRatio = aspectRatio
+        self.prevPosition = position
+    }
+    
+    func update(deltaTime: TimeInterval, move: Bool = true) {
+        if move {
+            let dx = velocity.x * deltaTime
+            let dy = velocity.y * deltaTime
+            position = .init(x: position.x + dx, y: position.y + dy)
+        }
+        else {
+            let distance = position - prevPosition
+           velocity = distance / deltaTime
+        }
+        
+        self.prevPosition = position
     }
 }
 
