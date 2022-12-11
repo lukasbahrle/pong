@@ -16,6 +16,9 @@
 		DADC0D7A2944D1AD00B490EE /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D792944D1AD00B490EE /* GameObject.swift */; };
 		DADC0D812944D6BA00B490EE /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D802944D6BA00B490EE /* GameState.swift */; };
 		DADC0D8429466EE500B490EE /* CGPoint+Arithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D8329466EE500B490EE /* CGPoint+Arithmetic.swift */; };
+		DADC0D882946735800B490EE /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D872946735800B490EE /* GameViewModel.swift */; };
+		DADC0D8B2946764900B490EE /* GameObject+Canvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D8A2946764900B490EE /* GameObject+Canvas.swift */; };
+		DADC0D8D2946796900B490EE /* GameViewModel+Draw.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D8C2946796900B490EE /* GameViewModel+Draw.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,9 @@
 		DADC0D792944D1AD00B490EE /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		DADC0D802944D6BA00B490EE /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		DADC0D8329466EE500B490EE /* CGPoint+Arithmetic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Arithmetic.swift"; sourceTree = "<group>"; };
+		DADC0D872946735800B490EE /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		DADC0D8A2946764900B490EE /* GameObject+Canvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameObject+Canvas.swift"; sourceTree = "<group>"; };
+		DADC0D8C2946796900B490EE /* GameViewModel+Draw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameViewModel+Draw.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,9 +67,10 @@
 		DA9F94832943D24900595940 /* Pong */ = {
 			isa = PBXGroup;
 			children = (
+				DADC0D862946733900B490EE /* ViewModel */,
+				DADC0D852946731100B490EE /* View */,
 				DADC0D8229466EB500B490EE /* Extensions */,
 				DA9F94842943D24900595940 /* PongApp.swift */,
-				DA9F94862943D24900595940 /* ContentView.swift */,
 				DADC0D752944CBF000B490EE /* GameLogic.swift */,
 				DADC0D802944D6BA00B490EE /* GameState.swift */,
 				DADC0D792944D1AD00B490EE /* GameObject.swift */,
@@ -88,6 +95,32 @@
 				DADC0D8329466EE500B490EE /* CGPoint+Arithmetic.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		DADC0D852946731100B490EE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DADC0D892946761F00B490EE /* GameObjects */,
+				DA9F94862943D24900595940 /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		DADC0D862946733900B490EE /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				DADC0D872946735800B490EE /* GameViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		DADC0D892946761F00B490EE /* GameObjects */ = {
+			isa = PBXGroup;
+			children = (
+				DADC0D8A2946764900B490EE /* GameObject+Canvas.swift */,
+				DADC0D8C2946796900B490EE /* GameViewModel+Draw.swift */,
+			);
+			path = GameObjects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,9 +196,12 @@
 				DADC0D782944D17100B490EE /* GameScore.swift in Sources */,
 				DADC0D762944CBF000B490EE /* GameLogic.swift in Sources */,
 				DA9F94872943D24900595940 /* ContentView.swift in Sources */,
+				DADC0D8B2946764900B490EE /* GameObject+Canvas.swift in Sources */,
 				DADC0D8429466EE500B490EE /* CGPoint+Arithmetic.swift in Sources */,
+				DADC0D882946735800B490EE /* GameViewModel.swift in Sources */,
 				DADC0D812944D6BA00B490EE /* GameState.swift in Sources */,
 				DA9F94852943D24900595940 /* PongApp.swift in Sources */,
+				DADC0D8D2946796900B490EE /* GameViewModel+Draw.swift in Sources */,
 				DADC0D7A2944D1AD00B490EE /* GameObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
