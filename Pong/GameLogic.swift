@@ -11,18 +11,18 @@ import Combine
 class GameLogic {
     private(set) var gameState: GameState = .readyToPlay {
         didSet {
-            onScoreUpdate(score, score.isGameOver(target: targetScore))
+            onScoreUpdate(score)
         }
     }
     let onGameStateUpdate: (_ state: GameState) -> Void
     
     private(set) var score: GameScore {
         didSet {
-            onScoreUpdate(score, score.isGameOver(target: targetScore))
+            onScoreUpdate(score)
         }
     }
     let targetScore: Int
-    let onScoreUpdate: (_ score: GameScore, _ isGameOver: Bool) -> Void
+    let onScoreUpdate: (GameScore) -> Void
     
     // MARK: - Game objects
     
@@ -32,7 +32,7 @@ class GameLogic {
     
     private var lastUpdate: TimeInterval = -1
     
-    internal init(score: GameScore = GameScore.initialScore, targetScore: Int, onScoreUpdate: @escaping (_ score: GameScore, _ isGameOver: Bool) -> Void, onGameStateUpdate: @escaping (_ gameState: GameState) -> Void) {
+    internal init(score: GameScore = GameScore.initialScore, targetScore: Int, onScoreUpdate: @escaping (GameScore) -> Void, onGameStateUpdate: @escaping (GameState) -> Void) {
         self.score = score
         self.targetScore = targetScore
         self.onScoreUpdate = onScoreUpdate
