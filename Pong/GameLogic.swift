@@ -9,12 +9,18 @@ import Foundation
 import Combine
 
 class GameLogic {
-    private(set) var gameState: GameState = .readyToPlay {
+    enum State {
+        case readyToPlay
+        case playing
+        case gameOver
+    }
+    
+    private(set) var gameState: State = .readyToPlay {
         didSet {
             onGameStateUpdate(gameState)
         }
     }
-    let onGameStateUpdate: (_ state: GameState) -> Void
+    let onGameStateUpdate: (_ state: State) -> Void
     
     private(set) var score: GameScore {
         didSet {
@@ -35,14 +41,14 @@ class GameLogic {
     
     private var lastUpdate: TimeInterval = -1
     
-    internal init(score: GameScore = GameScore.initialScore, targetScore: Int, onScoreUpdate: @escaping (GameScore) -> Void, onGameStateUpdate: @escaping (GameState) -> Void) {
+    internal init(score: GameScore = GameScore.initialScore, targetScore: Int, onScoreUpdate: @escaping (GameScore) -> Void, onGameStateUpdate: @escaping (State) -> Void) {
         self.score = score
         self.targetScore = targetScore
         self.onScoreUpdate = onScoreUpdate
         self.onGameStateUpdate = onGameStateUpdate
     }
     
-    func start() {
+    func play() {
         ball.position = .init(x: 0.5, y: 0.5)
         ball.velocity = .init(x: 0, y: 0.2)
         gameState = .playing
