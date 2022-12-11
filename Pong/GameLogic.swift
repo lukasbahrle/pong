@@ -39,7 +39,11 @@ class GameLogic {
         self.onGameStateUpdate = onGameStateUpdate
     }
     
-    func start() {}
+    func start() {
+        ball.position = .init(x: 0.5, y: 0.5)
+        ball.velocity = .init(x: 0, y: 0.2)
+        gameState = .playing
+    }
     
     func movePlayer(x: CGFloat) {
         movePaddle(player, x: x)
@@ -60,6 +64,8 @@ class GameLogic {
         
         let deltaTime = timestamp - lastUpdate
         lastUpdate = timestamp
+        
+        guard gameState == .playing else { return }
         
         ball.update(deltaTime: deltaTime)
         player.update(deltaTime: deltaTime, move: false)
