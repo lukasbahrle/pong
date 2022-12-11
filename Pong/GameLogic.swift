@@ -11,7 +11,7 @@ import Combine
 class GameLogic {
     private(set) var gameState: GameState = .readyToPlay {
         didSet {
-            onScoreUpdate(score)
+            onGameStateUpdate(gameState)
         }
     }
     let onGameStateUpdate: (_ state: GameState) -> Void
@@ -19,6 +19,9 @@ class GameLogic {
     private(set) var score: GameScore {
         didSet {
             onScoreUpdate(score)
+            if score.isGameOver(target: targetScore) {
+                gameState = .gameOver
+            }
         }
     }
     let targetScore: Int
