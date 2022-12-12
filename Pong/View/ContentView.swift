@@ -24,7 +24,6 @@ struct ContentView: View {
                     game.onDrag(dragLocation: drag.location, screenSize: UIScreen.main.bounds.size)
                 }))
             }
-            .ignoresSafeArea()
             
             if game.gameState == .readyToPlay || game.gameState == .gameOver {
                 Button {
@@ -40,6 +39,7 @@ struct ContentView: View {
                 }
             }
         }
+        .ignoresSafeArea()
     }
 }
 
