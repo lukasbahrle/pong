@@ -18,6 +18,7 @@
 		DADC0D882946735800B490EE /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D872946735800B490EE /* GameViewModel.swift */; };
 		DADC0D8B2946764900B490EE /* GameObject+Canvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D8A2946764900B490EE /* GameObject+Canvas.swift */; };
 		DADC0D8D2946796900B490EE /* GameViewModel+Draw.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D8C2946796900B490EE /* GameViewModel+Draw.swift */; };
+		DADC0D8F2947D3D700B490EE /* GameObject+Collisions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D8E2947D3D700B490EE /* GameObject+Collisions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		DADC0D872946735800B490EE /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		DADC0D8A2946764900B490EE /* GameObject+Canvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameObject+Canvas.swift"; sourceTree = "<group>"; };
 		DADC0D8C2946796900B490EE /* GameViewModel+Draw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameViewModel+Draw.swift"; sourceTree = "<group>"; };
+		DADC0D8E2947D3D700B490EE /* GameObject+Collisions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameObject+Collisions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,13 +67,11 @@
 		DA9F94832943D24900595940 /* Pong */ = {
 			isa = PBXGroup;
 			children = (
+				DADC0D902947D3E900B490EE /* Game logic */,
 				DADC0D862946733900B490EE /* ViewModel */,
 				DADC0D852946731100B490EE /* View */,
 				DADC0D8229466EB500B490EE /* Extensions */,
 				DA9F94842943D24900595940 /* PongApp.swift */,
-				DADC0D752944CBF000B490EE /* GameLogic.swift */,
-				DADC0D792944D1AD00B490EE /* GameObject.swift */,
-				DADC0D772944D17100B490EE /* GameScore.swift */,
 				DA9F94882943D24B00595940 /* Assets.xcassets */,
 				DA9F948A2943D24B00595940 /* Preview Content */,
 			);
@@ -118,6 +118,25 @@
 				DADC0D8C2946796900B490EE /* GameViewModel+Draw.swift */,
 			);
 			path = GameObjects;
+			sourceTree = "<group>";
+		};
+		DADC0D902947D3E900B490EE /* Game logic */ = {
+			isa = PBXGroup;
+			children = (
+				DADC0D912947D40600B490EE /* GameObject */,
+				DADC0D772944D17100B490EE /* GameScore.swift */,
+				DADC0D752944CBF000B490EE /* GameLogic.swift */,
+			);
+			path = "Game logic";
+			sourceTree = "<group>";
+		};
+		DADC0D912947D40600B490EE /* GameObject */ = {
+			isa = PBXGroup;
+			children = (
+				DADC0D792944D1AD00B490EE /* GameObject.swift */,
+				DADC0D8E2947D3D700B490EE /* GameObject+Collisions.swift */,
+			);
+			path = GameObject;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,6 +216,7 @@
 				DADC0D8429466EE500B490EE /* CGPoint+Arithmetic.swift in Sources */,
 				DADC0D882946735800B490EE /* GameViewModel.swift in Sources */,
 				DA9F94852943D24900595940 /* PongApp.swift in Sources */,
+				DADC0D8F2947D3D700B490EE /* GameObject+Collisions.swift in Sources */,
 				DADC0D8D2946796900B490EE /* GameViewModel+Draw.swift in Sources */,
 				DADC0D7A2944D1AD00B490EE /* GameObject.swift in Sources */,
 			);

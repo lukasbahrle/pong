@@ -15,7 +15,7 @@ extension GameObject {
     static func paddle(_ isPlayer: Bool) -> GameObject {
         let width: CGFloat = 0.24
         let y: CGFloat = isPlayer ? 0.9 : 0.1
-        return .init(position: .init(x: 0.5 - width * 0.5, y: y), width: width, aspectRatio: 0.2, velocity: .zero)
+        return .init(position: .init(x: 0.5, y: y), width: width, aspectRatio: 0.2, velocity: .zero)
     }
 }
 

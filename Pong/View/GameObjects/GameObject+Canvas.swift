@@ -21,7 +21,7 @@ extension GameObject {
     }
     
     private func rectInCanvas(_ canvasSize: CGSize) -> CGRect {
-        .init(origin: .init(x: position.x * canvasSize.width, y: position.y * canvasSize.height), size: .init(width: width * canvasSize.width, height: height * canvasSize.width))
+        .init(origin: .init(x: (position.x - width * 0.5) * canvasSize.width, y: position.y  * canvasSize.height - height * canvasSize.width * 0.5), size: .init(width: width * canvasSize.width, height: height * canvasSize.width))
     }
     
     func draw(context: GraphicsContext, canvasSize: CGSize, color: Color, path: ObjectPath) {
