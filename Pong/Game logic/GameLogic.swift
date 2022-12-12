@@ -79,5 +79,19 @@ class GameLogic {
         ball.update(deltaTime: deltaTime)
         player.update(deltaTime: deltaTime, move: false)
         opponent.update(deltaTime: deltaTime, move: false)
+        
+        checkCollisions(screenRatio: screenRatio)
+    }
+    
+    private func checkCollisions(screenRatio: CGFloat) {
+        if ball.collides(with: player, screenRatio: screenRatio) {
+            ball.position.y = player.position.y - (player.height + ball.height) * screenRatio * 0.5
+            ball.velocity.y *= -1
+        }
+        else if ball.collides(with: opponent, screenRatio: screenRatio) {
+            ball.position.y = opponent.position.y + (opponent.height + ball.height) * screenRatio * 0.5
+            ball.velocity.y *= -1
+        }
     }
 }
+
