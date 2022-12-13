@@ -62,7 +62,7 @@ class GameLogic {
     }
     
     private func movePaddle(_ paddle: GameObject, x: CGFloat) {
-        paddle.position.x = min(max(0, x - paddle.width * 0.5), 1 - paddle.width)
+        paddle.position.x = min(max(paddle.width * 0.5, x), 1 - paddle.width * 0.5)
     }
     
     func update(timestamp: TimeInterval, screenRatio: CGFloat) {
