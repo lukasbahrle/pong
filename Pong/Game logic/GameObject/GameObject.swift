@@ -17,20 +17,48 @@ extension GameObject {
         let y: CGFloat = isPlayer ? 0.9 : 0.1
         return .init(position: .init(x: 0.5, y: y), width: width, aspectRatio: 0.2, velocity: .zero)
     }
+    
+    static func wall(_ alignment: Wall.Alignment) -> GameObject {
+        let gameObject = GameObject(position: .zero, width: 1.0, height: 1.0, velocity: .zero)
+        gameObject.position = alignment.position(gameObject)
+        return gameObject
+    }
+}
+
+enum GameObjectHeightValue {
+    case relativeToContainerHeight(height: CGFloat)
+    case relativeToWidth(aspectRatio: CGFloat)
+    
+    var value: CGFloat {
+        switch self {
+        case let .relativeToContainerHeight(value):
+            return value
+        case let .relativeToWidth(value):
+            return value
+        }
+    }
 }
 
 class GameObject {
     var position: CGPoint
     var velocity: CGPoint
     var width: CGFloat
-    var aspectRatio: CGFloat
+    private let heightValue: GameObjectHeightValue
     private var prevPosition: CGPoint
     
     init(position: CGPoint, width: CGFloat, aspectRatio: CGFloat, velocity: CGPoint) {
         self.position = position
         self.width = width
         self.velocity = velocity
-        self.aspectRatio = aspectRatio
+        self.heightValue = .relativeToWidth(aspectRatio: aspectRatio)
+        self.prevPosition = position
+    }
+    
+    init(position: CGPoint, width: CGFloat, height: CGFloat, velocity: CGPoint) {
+        self.position = position
+        self.width = width
+        self.velocity = velocity
+        self.heightValue = .relativeToContainerHeight(height: height)
         self.prevPosition = position
     }
     
@@ -50,7 +78,16 @@ class GameObject {
 }
 
 extension GameObject {
-    var height: CGFloat {
-        width * aspectRatio
+    func height(_ screenRatio: CGFloat = 0) -> CGFloat {
+        switch heightValue {
+        case .relativeToContainerHeight(height: let height):
+            return height
+        case .relativeToWidth(aspectRatio: let aspectRatio):
+            return aspectRatio * width * screenRatio
+        }
+    }
+    
+    func frame(_ screenRatio: CGFloat) -> CGRect {
+        .init(origin: .init(x: (position.x - width * 0.5), y: position.y - height(screenRatio) * 0.5), size: .init(width: width, height: height(screenRatio)))
     }
 }

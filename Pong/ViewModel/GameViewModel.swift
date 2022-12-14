@@ -34,7 +34,15 @@ class GameViewModel: ObservableObject {
     }
     
     func onDrag(dragLocation: CGPoint, screenSize: CGSize) {
-        logic.movePlayer(x: dragLocation.x / screenSize.width)
+        let y = dragLocation.y / screenSize.height
+        
+        if y < 0.5 {
+            logic.moveOpponent(x: dragLocation.x / screenSize.width)
+        }
+        else {
+            logic.movePlayer(x: dragLocation.x / screenSize.width)
+        }
+        
     }
     
     func update(timestamp: TimeInterval, screenRatio: CGFloat) {

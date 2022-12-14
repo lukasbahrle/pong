@@ -18,10 +18,16 @@ extension GameObject {
         static let paddle: ObjectPath = .init { rect in
             Path(roundedRect: rect, cornerRadius: 10)
         }
+        
+        static let block: ObjectPath = .init { rect in
+            Path(roundedRect: rect, cornerRadius: 0)
+        }
     }
     
     private func rectInCanvas(_ canvasSize: CGSize) -> CGRect {
-        .init(origin: .init(x: (position.x - width * 0.5) * canvasSize.width, y: position.y  * canvasSize.height - height * canvasSize.width * 0.5), size: .init(width: width * canvasSize.width, height: height * canvasSize.width))
+        let screenRatio: CGFloat = canvasSize.width / canvasSize.height
+        let frame = frame(screenRatio)
+        return CGRect(origin: CGPoint(x: frame.origin.x * canvasSize.width, y: frame.origin.y  * canvasSize.height), size: CGSize(width: frame.size.width * canvasSize.width, height: frame.size.height * canvasSize.height))
     }
     
     func draw(context: GraphicsContext, canvasSize: CGSize, color: Color, path: ObjectPath) {
