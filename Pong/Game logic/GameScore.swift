@@ -16,4 +16,18 @@ struct GameScore {
     func isGameOver(target: Int) -> Bool {
         max(player, opponent) >= target
     }
+    
+    mutating func playerScores() {
+        player += 1
+    }
+    
+    mutating func opponetScores() {
+        opponent += 1
+    }
+    
+    mutating func reset() {
+        self = .initialScore
+    }
 }
+
+extension GameScore: Equatable {}

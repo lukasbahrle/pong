@@ -10,27 +10,44 @@ import Foundation
 enum GameState {
     case readyToPlay
     case playing
+    case goal
     case gameOver
 }
 
+@MainActor
 class GameViewModel: ObservableObject {
-    @Published var gameState: GameState = .readyToPlay
-    
-    private(set) lazy var logic = GameLogic(targetScore: 3, onScoreUpdate: { score in }, onGameStateUpdate: { [weak self] state in
-        guard let self else { return }
-        switch state {
-        case .readyToPlay:
-            self.gameState = .readyToPlay
-        case .playing:
-            self.gameState = .playing
-        case .gameOver:
-            self.gameState = .gameOver
+    @Published var gameState: GameState = .readyToPlay {
+        didSet {
+            if gameState == .playing {
+                logic.play()
+            }
         }
-    })
+    }
+    @Published var score: GameScore = .initialScore {
+        didSet {
+            if score.isGameOver(target: 3) {
+                onGameOver()
+            }
+            else if score.player > 0 || score.opponent > 0 {
+                onGoal()
+            }
+        }
+    }
+    
+    private(set) lazy var logic = GameLogic { [weak self] isPlayerGoal in
+        guard let self else { return }
+        if isPlayerGoal {
+            self.score.playerScores()
+        }
+        else {
+            self.score.opponetScores()
+        }
+    }
     
     func play() {
         guard gameState == .readyToPlay || gameState == .gameOver else { return }
-        logic.play()
+        score.reset()
+        gameState = .playing
     }
     
     func onDrag(dragLocation: CGPoint, screenSize: CGSize) {
@@ -42,10 +59,25 @@ class GameViewModel: ObservableObject {
         else {
             logic.movePlayer(x: dragLocation.x / screenSize.width)
         }
-        
     }
     
     func update(timestamp: TimeInterval, screenRatio: CGFloat) {
         logic.update(timestamp: timestamp, screenRatio: screenRatio)
+    }
+    
+    private func onGoal() {
+        gameState = .goal
+        Task {
+            try? await Task.sleep(nanoseconds: NSEC_PER_SEC * 2)
+            gameState = .playing
+        }
+    }
+    
+    private func onGameOver() {
+        gameState = .gameOver
+        Task {
+            try? await Task.sleep(nanoseconds: NSEC_PER_SEC * 3)
+            gameState = .readyToPlay
+        }
     }
 }

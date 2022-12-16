@@ -9,32 +9,6 @@ import Foundation
 import Combine
 
 class GameLogic {
-    enum State {
-        case readyToPlay
-        case playing
-        case gameOver
-    }
-    
-    private(set) var gameState: State = .readyToPlay {
-        didSet {
-            onGameStateUpdate(gameState)
-        }
-    }
-    let onGameStateUpdate: (_ state: State) -> Void
-    
-    private(set) var score: GameScore {
-        didSet {
-            onScoreUpdate(score)
-            if score.isGameOver(target: targetScore) {
-                gameState = .gameOver
-            }
-        }
-    }
-    let targetScore: Int
-    let onScoreUpdate: (GameScore) -> Void
-    
-    // MARK: - Game objects
-    
     let ball: GameObject = .ball
     let player: GameObject = .paddle(true)
     let opponent: GameObject = .paddle(false)
@@ -45,17 +19,15 @@ class GameLogic {
     
     private var lastUpdate: TimeInterval = -1
     
-    internal init(score: GameScore = GameScore.initialScore, targetScore: Int, onScoreUpdate: @escaping (GameScore) -> Void, onGameStateUpdate: @escaping (State) -> Void) {
-        self.score = score
-        self.targetScore = targetScore
-        self.onScoreUpdate = onScoreUpdate
-        self.onGameStateUpdate = onGameStateUpdate
+    private let onGoal: (Bool) -> Void
+    
+    init(onGoal: @escaping (Bool) -> Void) {
+        self.onGoal = onGoal
     }
     
     func play() {
         ball.position = .init(x: 0.5, y: 0.5)
         ball.velocity = .init(x: 0.5, y: 0.2)
-        gameState = .playing
     }
     
     func movePlayer(x: CGFloat) {
@@ -78,8 +50,6 @@ class GameLogic {
         let deltaTime = timestamp - lastUpdate
         lastUpdate = timestamp
         
-        guard gameState == .playing else { return }
-        
         ball.update(deltaTime: deltaTime)
         player.update(deltaTime: deltaTime, move: false)
         opponent.update(deltaTime: deltaTime, move: false)
@@ -99,6 +69,14 @@ class GameLogic {
         else if ball.collides(with: wallLeft, screenRatio: screenRatio) || ball.collides(with: wallRight, screenRatio: screenRatio) {
             ball.position.x = min(1 - ball.width * 0.5, max(ball.width * 0.5, ball.position.x), ball.position.x)
             ball.velocity.x *= -1
+        }
+        else if ball.collides(with: wallBottom, screenRatio: screenRatio) {
+            ball.position.y = wallBottom.position.y + (wallBottom.height(screenRatio) + ball.height(screenRatio)) * 0.5
+            onGoal(false)
+        }
+        else if ball.collides(with: wallTop, screenRatio: screenRatio) {
+            ball.position.y = wallTop.position.y - (wallTop.height(screenRatio) + ball.height(screenRatio)) * 0.5
+            onGoal(true)
         }
     }
 }
