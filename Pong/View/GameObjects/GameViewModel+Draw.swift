@@ -9,13 +9,13 @@ import SwiftUI
 
 extension GameViewModel {
     func draw(context: GraphicsContext, canvasSize: CGSize) {
-        logic.draw(context: context, canvasSize: canvasSize)
+        logic.draw(context: context, canvasSize: canvasSize, drawBall: gameState != .readyToPlay)
     }
 }
 
 private extension GameLogic {
-    func draw(context: GraphicsContext, canvasSize: CGSize) {
-        ball.draw(context: context, canvasSize: canvasSize, color: .white, path: .ball)
+    func draw(context: GraphicsContext, canvasSize: CGSize, drawBall: Bool) {
+        if drawBall { ball.draw(context: context, canvasSize: canvasSize, color: .white, path: .ball) }
         player.draw(context: context, canvasSize: canvasSize, color: .white, path: .paddle)
         opponent.draw(context: context, canvasSize: canvasSize, color: .white, path: .paddle)
     }

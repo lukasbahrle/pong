@@ -25,16 +25,14 @@ struct ContentView: View {
     
     private var linesOpacity: Double {
         switch game.gameState {
-        case .readyToPlay:
-            return 0
         case .playing:
-            return 0.2
-        case .goal:
-            return 0
-        case .gameOver:
+            return 1.0
+        default:
             return 0
         }
     }
+    
+    private let linesColor = Color(white: 0.2)
     
     private var scoreScale: Double {
         switch game.gameState {
@@ -87,10 +85,10 @@ struct ContentView: View {
             
             Divider()
                 .frame(height: 2)
-                .overlay(.white.opacity(linesOpacity))
+                .overlay(linesColor.opacity(linesOpacity))
             
             Circle()
-                .strokeBorder(.white.opacity(linesOpacity),lineWidth: 2)
+                .strokeBorder(linesColor.opacity(linesOpacity),lineWidth: 2)
                 .frame(width: 100, height: 100)
                 
             
