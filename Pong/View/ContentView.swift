@@ -6,9 +6,34 @@
 //
 
 import SwiftUI
+import Combine
+
+class SimpleGameInputGenerator: GameInputGenerator {
+    var movePlayerPublisher: AnyPublisher<CGFloat, Never> {
+        movePlayerSubject.eraseToAnyPublisher()
+    }
+    private let movePlayerSubject = PassthroughSubject<CGFloat, Never>()
+
+    
+    var moveOpponentPublisher: AnyPublisher<CGFloat, Never> {
+        moveOpponentSubject.eraseToAnyPublisher()
+    }
+    private let moveOpponentSubject = PassthroughSubject<CGFloat, Never>()
+    
+    func onDrag(dragLocation: CGPoint, screenSize: CGSize) {
+        let y = dragLocation.y / screenSize.height
+        
+        if y < 0.5 {
+            moveOpponentSubject.send(dragLocation.x / screenSize.width)
+        }
+        else {
+            movePlayerSubject.send(dragLocation.x / screenSize.width)
+        }
+    }
+}
 
 struct ContentView: View {
-    @StateObject var game = GameViewModel()
+    @StateObject var game = GameViewModel(gameInputGenerator: SimpleGameInputGenerator())
     
     private var scoreOpacity: Double {
         switch game.gameState {

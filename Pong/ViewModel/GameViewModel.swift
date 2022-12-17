@@ -6,12 +6,20 @@
 //
 
 import Foundation
+import Combine
 
 enum GameState {
     case readyToPlay
     case playing
     case goal
     case gameOver
+}
+
+protocol GameInputGenerator {
+    var movePlayerPublisher: AnyPublisher<CGFloat, Never> { get }
+    var moveOpponentPublisher: AnyPublisher<CGFloat, Never> { get }
+    
+    func onDrag(dragLocation: CGPoint, screenSize: CGSize)
 }
 
 @MainActor
@@ -34,6 +42,10 @@ class GameViewModel: ObservableObject {
         }
     }
     
+    private let inputGenerator: GameInputGenerator
+    
+    private var subscriptions = Set<AnyCancellable>()
+    
     private(set) lazy var logic = GameLogic { [weak self] isPlayerGoal in
         guard let self else { return }
         if isPlayerGoal {
@@ -44,6 +56,22 @@ class GameViewModel: ObservableObject {
         }
     }
     
+    init(gameInputGenerator: GameInputGenerator) {
+        self.inputGenerator = gameInputGenerator
+        
+        self.inputGenerator.movePlayerPublisher.sink { [weak self] value in
+            guard let self else { return }
+            self.logic.movePlayer(x: value)
+        }
+        .store(in: &subscriptions)
+        
+        self.inputGenerator.moveOpponentPublisher.sink { [weak self] value in
+            guard let self else { return }
+            self.logic.moveOpponent(x: value)
+        }
+        .store(in: &subscriptions)
+    }
+    
     func play() {
         guard gameState == .readyToPlay || gameState == .gameOver else { return }
         score.reset()
@@ -51,14 +79,7 @@ class GameViewModel: ObservableObject {
     }
     
     func onDrag(dragLocation: CGPoint, screenSize: CGSize) {
-        let y = dragLocation.y / screenSize.height
-        
-        if y < 0.5 {
-            logic.moveOpponent(x: dragLocation.x / screenSize.width)
-        }
-        else {
-            logic.movePlayer(x: dragLocation.x / screenSize.width)
-        }
+        inputGenerator.onDrag(dragLocation: dragLocation, screenSize: screenSize)
     }
     
     func update(timestamp: TimeInterval, screenRatio: CGFloat) {
