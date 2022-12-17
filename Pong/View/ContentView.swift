@@ -8,12 +8,11 @@
 import SwiftUI
 import Combine
 
-class SimpleGameInputGenerator: GameInputGenerator {
+class SimpleGameController: GameController {
     var movePlayerPublisher: AnyPublisher<CGFloat, Never> {
         movePlayerSubject.eraseToAnyPublisher()
     }
     private let movePlayerSubject = PassthroughSubject<CGFloat, Never>()
-
     
     var moveOpponentPublisher: AnyPublisher<CGFloat, Never> {
         moveOpponentSubject.eraseToAnyPublisher()
@@ -32,8 +31,11 @@ class SimpleGameInputGenerator: GameInputGenerator {
     }
 }
 
+let logic = GameLogic()
+
+@MainActor
 struct ContentView: View {
-    @StateObject var game = GameViewModel(gameInputGenerator: SimpleGameInputGenerator())
+    @StateObject var game = GameViewModel(gameInput: logic, gameOutput: logic, gameController: SimpleGameController())
     
     private var scoreOpacity: Double {
         switch game.gameState {

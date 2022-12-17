@@ -8,7 +8,13 @@
 import Foundation
 import Combine
 
-class GameLogic {
+class GameLogic: GameInput, GameOutput {
+    var goalPublisher: AnyPublisher<Bool, Never> {
+        goalSubject.eraseToAnyPublisher()
+    }
+    
+    private let goalSubject  = PassthroughSubject<Bool, Never>()
+    
     let ball: GameObject = .ball
     let player: GameObject = .paddle(true)
     let opponent: GameObject = .paddle(false)
@@ -18,12 +24,6 @@ class GameLogic {
     let wallTop: GameObject = .wall(.top)
     
     private var lastUpdate: TimeInterval = -1
-    
-    private let onGoal: (Bool) -> Void
-    
-    init(onGoal: @escaping (Bool) -> Void) {
-        self.onGoal = onGoal
-    }
     
     func play() {
         ball.position = .init(x: 0.5, y: 0.5)
@@ -72,11 +72,11 @@ class GameLogic {
         }
         else if ball.collides(with: wallBottom, screenRatio: screenRatio) {
             ball.position.y = wallBottom.position.y + (wallBottom.height(screenRatio) + ball.height(screenRatio)) * 0.5
-            onGoal(false)
+            goalSubject.send(false)
         }
         else if ball.collides(with: wallTop, screenRatio: screenRatio) {
             ball.position.y = wallTop.position.y - (wallTop.height(screenRatio) + ball.height(screenRatio)) * 0.5
-            onGoal(true)
+            goalSubject.send(true)
         }
     }
 }

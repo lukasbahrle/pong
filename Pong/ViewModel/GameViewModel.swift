@@ -15,11 +15,22 @@ enum GameState {
     case gameOver
 }
 
-protocol GameInputGenerator {
+protocol GameController {
     var movePlayerPublisher: AnyPublisher<CGFloat, Never> { get }
     var moveOpponentPublisher: AnyPublisher<CGFloat, Never> { get }
     
     func onDrag(dragLocation: CGPoint, screenSize: CGSize)
+}
+
+protocol GameInput {
+    func play()
+    func movePlayer(x: CGFloat)
+    func moveOpponent(x: CGFloat)
+    func update(timestamp: TimeInterval, screenRatio: CGFloat)
+}
+
+protocol GameOutput {
+    var goalPublisher: AnyPublisher<Bool, Never> { get }
 }
 
 @MainActor
@@ -27,7 +38,7 @@ class GameViewModel: ObservableObject {
     @Published var gameState: GameState = .readyToPlay {
         didSet {
             if gameState == .playing {
-                logic.play()
+                gameInput.play()
             }
         }
     }
@@ -42,32 +53,36 @@ class GameViewModel: ObservableObject {
         }
     }
     
-    private let inputGenerator: GameInputGenerator
-    
     private var subscriptions = Set<AnyCancellable>()
     
-    private(set) lazy var logic = GameLogic { [weak self] isPlayerGoal in
-        guard let self else { return }
-        if isPlayerGoal {
-            self.score.playerScores()
-        }
-        else {
-            self.score.opponetScores()
-        }
-    }
+    private let gameInput: GameInput
+    private let gameOutput: GameOutput
+    private let gameController: GameController
     
-    init(gameInputGenerator: GameInputGenerator) {
-        self.inputGenerator = gameInputGenerator
+    init(gameInput: GameInput, gameOutput: GameOutput, gameController: GameController) {
+        self.gameInput = gameInput
+        self.gameOutput = gameOutput
+        self.gameController = gameController
         
-        self.inputGenerator.movePlayerPublisher.sink { [weak self] value in
+        self.gameController.movePlayerPublisher.sink { [weak self] value in
             guard let self else { return }
-            self.logic.movePlayer(x: value)
+            self.gameInput.movePlayer(x: value)
         }
         .store(in: &subscriptions)
         
-        self.inputGenerator.moveOpponentPublisher.sink { [weak self] value in
+        self.gameController.moveOpponentPublisher.sink { [weak self] value in
             guard let self else { return }
-            self.logic.moveOpponent(x: value)
+            self.gameInput.moveOpponent(x: value)
+        }
+        .store(in: &subscriptions)
+        
+        self.gameOutput.goalPublisher.sink { isPlayerGoal in
+            if isPlayerGoal {
+                self.score.playerScores()
+            }
+            else {
+                self.score.opponetScores()
+            }
         }
         .store(in: &subscriptions)
     }
@@ -79,11 +94,11 @@ class GameViewModel: ObservableObject {
     }
     
     func onDrag(dragLocation: CGPoint, screenSize: CGSize) {
-        inputGenerator.onDrag(dragLocation: dragLocation, screenSize: screenSize)
+        gameController.onDrag(dragLocation: dragLocation, screenSize: screenSize)
     }
     
     func update(timestamp: TimeInterval, screenRatio: CGFloat) {
-        logic.update(timestamp: timestamp, screenRatio: screenRatio)
+        gameInput.update(timestamp: timestamp, screenRatio: screenRatio)
     }
     
     private func onGoal() {
