@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA41CF1F294EE44900CE7275 /* PongActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41CF1E294EE44900CE7275 /* PongActivity.swift */; };
 		DA9F94852943D24900595940 /* PongApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F94842943D24900595940 /* PongApp.swift */; };
 		DA9F94872943D24900595940 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F94862943D24900595940 /* ContentView.swift */; };
 		DA9F94892943D24B00595940 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA9F94882943D24B00595940 /* Assets.xcassets */; };
@@ -23,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA41CF1E294EE44900CE7275 /* PongActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PongActivity.swift; sourceTree = "<group>"; };
+		DA41CF20294EE47400CE7275 /* Pong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pong.entitlements; sourceTree = "<group>"; };
 		DA9F94812943D24900595940 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA9F94842943D24900595940 /* PongApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PongApp.swift; sourceTree = "<group>"; };
 		DA9F94862943D24900595940 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -50,6 +53,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA41CF1D294EE42100CE7275 /* Group activity */ = {
+			isa = PBXGroup;
+			children = (
+				DA41CF1E294EE44900CE7275 /* PongActivity.swift */,
+			);
+			path = "Group activity";
+			sourceTree = "<group>";
+		};
 		DA9F94782943D24900595940 = {
 			isa = PBXGroup;
 			children = (
@@ -69,6 +80,8 @@
 		DA9F94832943D24900595940 /* Pong */ = {
 			isa = PBXGroup;
 			children = (
+				DA41CF20294EE47400CE7275 /* Pong.entitlements */,
+				DA41CF1D294EE42100CE7275 /* Group activity */,
 				DADC0D902947D3E900B490EE /* Game logic */,
 				DADC0D862946733900B490EE /* ViewModel */,
 				DADC0D852946731100B490EE /* View */,
@@ -222,6 +235,7 @@
 				DA9F94852943D24900595940 /* PongApp.swift in Sources */,
 				DADC0D8F2947D3D700B490EE /* GameObject+Collisions.swift in Sources */,
 				DADC0D8D2946796900B490EE /* GameViewModel+Draw.swift in Sources */,
+				DA41CF1F294EE44900CE7275 /* PongActivity.swift in Sources */,
 				DADC0D7A2944D1AD00B490EE /* GameObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,6 +362,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Pong/Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
@@ -377,6 +392,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Pong/Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
