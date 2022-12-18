@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DA41CF1F294EE44900CE7275 /* PongActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41CF1E294EE44900CE7275 /* PongActivity.swift */; };
+		DA41CF22294EE57100CE7275 /* PongActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41CF21294EE57100CE7275 /* PongActivityController.swift */; };
 		DA9F94852943D24900595940 /* PongApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F94842943D24900595940 /* PongApp.swift */; };
 		DA9F94872943D24900595940 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F94862943D24900595940 /* ContentView.swift */; };
 		DA9F94892943D24B00595940 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA9F94882943D24B00595940 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		DA41CF1E294EE44900CE7275 /* PongActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PongActivity.swift; sourceTree = "<group>"; };
 		DA41CF20294EE47400CE7275 /* Pong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pong.entitlements; sourceTree = "<group>"; };
+		DA41CF21294EE57100CE7275 /* PongActivityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PongActivityController.swift; sourceTree = "<group>"; };
 		DA9F94812943D24900595940 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA9F94842943D24900595940 /* PongApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PongApp.swift; sourceTree = "<group>"; };
 		DA9F94862943D24900595940 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				DA41CF1E294EE44900CE7275 /* PongActivity.swift */,
+				DA41CF21294EE57100CE7275 /* PongActivityController.swift */,
 			);
 			path = "Group activity";
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 				DADC0D8F2947D3D700B490EE /* GameObject+Collisions.swift in Sources */,
 				DADC0D8D2946796900B490EE /* GameViewModel+Draw.swift in Sources */,
 				DA41CF1F294EE44900CE7275 /* PongActivity.swift in Sources */,
+				DA41CF22294EE57100CE7275 /* PongActivityController.swift in Sources */,
 				DADC0D7A2944D1AD00B490EE /* GameObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

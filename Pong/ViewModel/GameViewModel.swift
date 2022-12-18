@@ -23,6 +23,7 @@ protocol GameController {
 }
 
 protocol GameInput {
+    func load()
     func play()
     func movePlayer(x: CGFloat)
     func moveOpponent(x: CGFloat)
@@ -85,6 +86,10 @@ class GameViewModel: ObservableObject {
             }
         }
         .store(in: &subscriptions)
+    }
+    
+    func load() {
+        gameInput.load()
     }
     
     func play() {

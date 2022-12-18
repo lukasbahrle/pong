@@ -25,6 +25,8 @@ class GameLogic: GameInput, GameOutput {
     
     private var lastUpdate: TimeInterval = -1
     
+    func load() {}
+    
     func play() {
         ball.position = .init(x: 0.5, y: 0.5)
         ball.velocity = .init(x: 0.5, y: 0.2)

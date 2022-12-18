@@ -144,6 +144,9 @@ struct ContentView: View {
             }
         }
         .background(Color.black)
+        .task {
+            game.load()
+        }
     }
 }
 
