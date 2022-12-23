@@ -9,15 +9,30 @@ import SwiftUI
 import Combine
 
 class SimpleGameController: GameController {
+    var playerIsActivePublisher: AnyPublisher<Bool, Never>{
+        playerIsActiveSubject.eraseToAnyPublisher()
+    }
+    private let playerIsActiveSubject = PassthroughSubject<Bool, Never>()
+    
     var movePlayerPublisher: AnyPublisher<CGFloat, Never> {
         movePlayerSubject.eraseToAnyPublisher()
     }
     private let movePlayerSubject = PassthroughSubject<CGFloat, Never>()
     
+    var opponentIsActivePublisher: AnyPublisher<Bool, Never>{
+        opponentIsActiveSubject.eraseToAnyPublisher()
+    }
+    private let opponentIsActiveSubject = PassthroughSubject<Bool, Never>()
+    
     var moveOpponentPublisher: AnyPublisher<CGFloat, Never> {
         moveOpponentSubject.eraseToAnyPublisher()
     }
     private let moveOpponentSubject = PassthroughSubject<CGFloat, Never>()
+    
+    func load() async {
+        playerIsActiveSubject.send(true)
+        opponentIsActiveSubject.send(true)
+    }
     
     func onDrag(dragLocation: CGPoint, screenSize: CGSize) {
         let y = dragLocation.y / screenSize.height
@@ -145,7 +160,7 @@ struct ContentView: View {
         }
         .background(Color.black)
         .task {
-            game.load()
+            await game.load()
         }
     }
 }

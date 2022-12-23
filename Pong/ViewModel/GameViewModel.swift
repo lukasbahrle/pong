@@ -16,6 +16,11 @@ enum GameState {
 }
 
 protocol GameController {
+    func load() async
+    
+    var playerIsActivePublisher: AnyPublisher<Bool, Never> { get }
+    var opponentIsActivePublisher: AnyPublisher<Bool, Never> { get }
+    
     var movePlayerPublisher: AnyPublisher<CGFloat, Never> { get }
     var moveOpponentPublisher: AnyPublisher<CGFloat, Never> { get }
     
@@ -23,7 +28,7 @@ protocol GameController {
 }
 
 protocol GameInput {
-    func load()
+    func load() async
     func play()
     func movePlayer(x: CGFloat)
     func moveOpponent(x: CGFloat)
@@ -65,6 +70,18 @@ class GameViewModel: ObservableObject {
         self.gameOutput = gameOutput
         self.gameController = gameController
         
+        self.gameController.playerIsActivePublisher.sink { [weak self] value in
+            guard let self else { return }
+            
+        }
+        .store(in: &subscriptions)
+        
+        self.gameController.opponentIsActivePublisher.sink { [weak self] value in
+            guard let self else { return }
+            
+        }
+        .store(in: &subscriptions)
+        
         self.gameController.movePlayerPublisher.sink { [weak self] value in
             guard let self else { return }
             self.gameInput.movePlayer(x: value)
@@ -88,8 +105,8 @@ class GameViewModel: ObservableObject {
         .store(in: &subscriptions)
     }
     
-    func load() {
-        gameInput.load()
+    func load() async {
+        await gameInput.load()
     }
     
     func play() {
