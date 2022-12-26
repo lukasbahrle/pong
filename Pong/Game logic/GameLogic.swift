@@ -87,7 +87,7 @@ class GameLogic: GameInput, GameOutput {
         }
         else if ball.collides(with: wallBottom, screenRatio: screenRatio) {
             ball.position.y = wallBottom.position.y + (wallBottom.height(screenRatio) + ball.height(screenRatio)) * 0.5
-            scoreSubject.value.opponetScores()
+            scoreSubject.value.opponentScores()
         }
         else if ball.collides(with: wallTop, screenRatio: screenRatio) {
             ball.position.y = wallTop.position.y - (wallTop.height(screenRatio) + ball.height(screenRatio)) * 0.5

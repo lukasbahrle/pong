@@ -21,7 +21,7 @@ struct GameScore {
         player += 1
     }
     
-    mutating func opponetScores() {
+    mutating func opponentScores() {
         opponent += 1
     }
     
