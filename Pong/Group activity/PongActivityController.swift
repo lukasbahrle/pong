@@ -10,12 +10,12 @@ import Combine
 import GroupActivities
 
 class PongActivityController{
-    private let playerIsActiveSubject = PassthroughSubject<Bool, Never>()
-    private let opponentIsActiveSubject = PassthroughSubject<Bool, Never>()
+    private let playerIsActiveSubject = CurrentValueSubject<Bool, Never>(false)
+    private let opponentIsActiveSubject = CurrentValueSubject<Bool, Never>(false)
     
     private let movePlayerSubject = PassthroughSubject<CGFloat, Never>()
     private let moveOpponentSubject = PassthroughSubject<CGFloat, Never>()
-    private let goalSubject = PassthroughSubject<Bool, Never>()
+    private let scoreSubject = PassthroughSubject<(player: Int, opponent: Int, isGameOver: Bool), Never>()
     
     private var messenger: GroupSessionMessenger?
     private var udpMessenger: GroupSessionMessenger?
@@ -94,8 +94,8 @@ extension PongActivityController: GameInput {
         await gameInput.load()
     }
     
-    func play() {
-        gameInput.play()
+    func play(reset: Bool) {
+        gameInput.play(reset: reset)
     }
     
     func movePlayer(x: CGFloat) {
@@ -114,8 +114,8 @@ extension PongActivityController: GameInput {
 // MARK: - GameOutput
 
 extension PongActivityController: GameOutput {
-    var goalPublisher: AnyPublisher<Bool, Never> {
-        goalSubject.eraseToAnyPublisher()
+    var scorePublisher: AnyPublisher<(player: Int, opponent: Int, isGameOver: Bool), Never> {
+        scoreSubject.eraseToAnyPublisher()
     }
 }
 

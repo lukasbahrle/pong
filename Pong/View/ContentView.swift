@@ -12,7 +12,7 @@ class SimpleGameController: GameController {
     var playerIsActivePublisher: AnyPublisher<Bool, Never>{
         playerIsActiveSubject.eraseToAnyPublisher()
     }
-    private let playerIsActiveSubject = PassthroughSubject<Bool, Never>()
+    private let playerIsActiveSubject = CurrentValueSubject<Bool, Never>(true)
     
     var movePlayerPublisher: AnyPublisher<CGFloat, Never> {
         movePlayerSubject.eraseToAnyPublisher()
@@ -22,17 +22,14 @@ class SimpleGameController: GameController {
     var opponentIsActivePublisher: AnyPublisher<Bool, Never>{
         opponentIsActiveSubject.eraseToAnyPublisher()
     }
-    private let opponentIsActiveSubject = PassthroughSubject<Bool, Never>()
+    private let opponentIsActiveSubject = CurrentValueSubject<Bool, Never>(true)
     
     var moveOpponentPublisher: AnyPublisher<CGFloat, Never> {
         moveOpponentSubject.eraseToAnyPublisher()
     }
     private let moveOpponentSubject = PassthroughSubject<CGFloat, Never>()
     
-    func load() async {
-        playerIsActiveSubject.send(true)
-        opponentIsActiveSubject.send(true)
-    }
+    func load() async {}
     
     func onDrag(dragLocation: CGPoint, screenSize: CGSize) {
         let y = dragLocation.y / screenSize.height
@@ -46,7 +43,7 @@ class SimpleGameController: GameController {
     }
 }
 
-let logic = GameLogic()
+let logic = GameLogic(target: 3)
 
 @MainActor
 struct ContentView: View {

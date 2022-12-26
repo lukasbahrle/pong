@@ -9,11 +9,17 @@ import Foundation
 import Combine
 
 class GameLogic: GameInput, GameOutput {
-    var goalPublisher: AnyPublisher<Bool, Never> {
-        goalSubject.eraseToAnyPublisher()
+    var scorePublisher: AnyPublisher<(player: Int, opponent: Int, isGameOver: Bool), Never> {
+        scoreSubject
+            .map({[weak self] score in
+                guard let self = self else { return (player: 0, opponent: 0, isGameOver: false) }
+                return (player: score.player, opponent: score.opponent, isGameOver: score.isGameOver(target: self.target))
+            })
+            .eraseToAnyPublisher()
     }
     
-    private let goalSubject  = PassthroughSubject<Bool, Never>()
+    private let scoreSubject = CurrentValueSubject<GameScore, Never>(.initialScore)
+    private let target: Int
     
     let ball: GameObject = .ball
     let player: GameObject = .paddle(true)
@@ -25,9 +31,16 @@ class GameLogic: GameInput, GameOutput {
     
     private var lastUpdate: TimeInterval = -1
     
+    init(target: Int) {
+        self.target = target
+    }
+    
     func load() {}
     
-    func play() {
+    func play(reset: Bool) {
+        if reset {
+            scoreSubject.value.reset()
+        }
         ball.position = .init(x: 0.5, y: 0.5)
         ball.velocity = .init(x: 0.5, y: 0.2)
     }
@@ -74,11 +87,11 @@ class GameLogic: GameInput, GameOutput {
         }
         else if ball.collides(with: wallBottom, screenRatio: screenRatio) {
             ball.position.y = wallBottom.position.y + (wallBottom.height(screenRatio) + ball.height(screenRatio)) * 0.5
-            goalSubject.send(false)
+            scoreSubject.value.opponetScores()
         }
         else if ball.collides(with: wallTop, screenRatio: screenRatio) {
             ball.position.y = wallTop.position.y - (wallTop.height(screenRatio) + ball.height(screenRatio)) * 0.5
-            goalSubject.send(true)
+            scoreSubject.value.playerScores()
         }
     }
 }

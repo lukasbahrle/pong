@@ -29,14 +29,14 @@ protocol GameController {
 
 protocol GameInput {
     func load() async
-    func play()
+    func play(reset: Bool)
     func movePlayer(x: CGFloat)
     func moveOpponent(x: CGFloat)
     func update(timestamp: TimeInterval, screenRatio: CGFloat)
 }
 
 protocol GameOutput {
-    var goalPublisher: AnyPublisher<Bool, Never> { get }
+    var scorePublisher: AnyPublisher<(player: Int, opponent: Int, isGameOver: Bool), Never> { get }
 }
 
 @MainActor
@@ -44,13 +44,14 @@ class GameViewModel: ObservableObject {
     @Published var gameState: GameState = .readyToPlay {
         didSet {
             if gameState == .playing {
-                gameInput.play()
+                gameInput.play(reset: false)
             }
         }
     }
-    @Published var score: GameScore = .initialScore {
+    @Published var score: (player: Int, opponent: Int) = (0, 0)
+    {
         didSet {
-            if score.isGameOver(target: 3) {
+            if isGameOver {
                 onGameOver()
             }
             else if score.player > 0 || score.opponent > 0 {
@@ -58,6 +59,8 @@ class GameViewModel: ObservableObject {
             }
         }
     }
+    
+    private var isGameOver: Bool = false
     
     private var subscriptions = Set<AnyCancellable>()
     
@@ -94,13 +97,10 @@ class GameViewModel: ObservableObject {
         }
         .store(in: &subscriptions)
         
-        self.gameOutput.goalPublisher.sink { isPlayerGoal in
-            if isPlayerGoal {
-                self.score.playerScores()
-            }
-            else {
-                self.score.opponetScores()
-            }
+        self.gameOutput.scorePublisher.sink { [weak self] (player, opponent, isGameOver) in
+            guard let self else { return }
+            self.isGameOver = isGameOver
+            self.score = (player, opponent)
         }
         .store(in: &subscriptions)
     }
@@ -111,7 +111,6 @@ class GameViewModel: ObservableObject {
     
     func play() {
         guard gameState == .readyToPlay || gameState == .gameOver else { return }
-        score.reset()
         gameState = .playing
     }
     
