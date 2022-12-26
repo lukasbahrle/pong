@@ -9,6 +9,13 @@ import Foundation
 import Combine
 
 class GameLogic: GameInput, GameOutput {
+    enum State {
+        case ready
+        case playing
+        case goal
+        case gameOver
+    }
+    
     var scorePublisher: AnyPublisher<(player: Int, opponent: Int, isGameOver: Bool), Never> {
         scoreSubject
             .map({[weak self] score in
@@ -30,6 +37,7 @@ class GameLogic: GameInput, GameOutput {
     let wallTop: GameObject = .wall(.top)
     
     private var lastUpdate: TimeInterval = -1
+    private var state: State = .ready
     
     init(target: Int) {
         self.target = target
@@ -38,9 +46,10 @@ class GameLogic: GameInput, GameOutput {
     func load() {}
     
     func play(reset: Bool) {
-        if reset {
+        if reset || state == .gameOver{
             scoreSubject.value.reset()
         }
+        state = .playing
         ball.position = .init(x: 0.5, y: 0.5)
         ball.velocity = .init(x: 0.5, y: 0.2)
     }
@@ -69,6 +78,10 @@ class GameLogic: GameInput, GameOutput {
         player.update(deltaTime: deltaTime, move: false)
         opponent.update(deltaTime: deltaTime, move: false)
         
+        guard state == .playing else {
+            return
+        }
+        
         checkCollisions(screenRatio: screenRatio)
     }
     
@@ -86,12 +99,21 @@ class GameLogic: GameInput, GameOutput {
             ball.velocity.x *= -1
         }
         else if ball.collides(with: wallBottom, screenRatio: screenRatio) {
-            ball.position.y = wallBottom.position.y + (wallBottom.height(screenRatio) + ball.height(screenRatio)) * 0.5
-            scoreSubject.value.opponentScores()
+            onGoal(isPlayer: false)
         }
         else if ball.collides(with: wallTop, screenRatio: screenRatio) {
-            ball.position.y = wallTop.position.y - (wallTop.height(screenRatio) + ball.height(screenRatio)) * 0.5
+            onGoal(isPlayer: true)
+        }
+    }
+    
+    private func onGoal(isPlayer: Bool) {
+        if isPlayer {
+            state = scoreSubject.value.player + 1 >= target ? .gameOver : .goal
             scoreSubject.value.playerScores()
+        }
+        else {
+            state = scoreSubject.value.opponent + 1 >= target ? .gameOver : .goal
+            scoreSubject.value.opponentScores()
         }
     }
 }
