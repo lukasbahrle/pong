@@ -8,13 +8,6 @@
 import Foundation
 import Combine
 
-enum GameState {
-    case readyToPlay
-    case playing
-    case goal
-    case gameOver
-}
-
 protocol GameController {
     func load() async
     
@@ -29,36 +22,30 @@ protocol GameController {
 
 protocol GameInput {
     func load() async
-    func play(reset: Bool)
+    func ready()
+    func play()
     func movePlayer(x: CGFloat)
     func moveOpponent(x: CGFloat)
     func update(timestamp: TimeInterval, screenRatio: CGFloat)
 }
 
 protocol GameOutput {
-    var scorePublisher: AnyPublisher<(player: Int, opponent: Int, isGameOver: Bool), Never> { get }
+    var statePublisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never>  { get }
 }
 
 @MainActor
 class GameViewModel: ObservableObject {
-    @Published var gameState: GameState = .readyToPlay {
+    @Published var gameState: GameState = .ready {
         didSet {
-            if gameState == .playing {
-                gameInput.play(reset: false)
-            }
-        }
-    }
-    @Published var score: (player: Int, opponent: Int) = (0, 0)
-    {
-        didSet {
-            if isGameOver {
+            if gameState == .gameOver {
                 onGameOver()
             }
-            else if score.player > 0 || score.opponent > 0 {
+            else if gameState == .goal {
                 onGoal()
             }
         }
     }
+    private(set) var score: (player: Int, opponent: Int) = (0, 0)
     
     private var isGameOver: Bool = false
     
@@ -97,10 +84,10 @@ class GameViewModel: ObservableObject {
         }
         .store(in: &subscriptions)
         
-        self.gameOutput.scorePublisher.sink { [weak self] (player, opponent, isGameOver) in
+        self.gameOutput.statePublisher.sink {  [weak self] (state: GameState, score: (player: Int, opponent: Int)) in
             guard let self else { return }
-            self.isGameOver = isGameOver
-            self.score = (player, opponent)
+            self.score = score
+            self.gameState = state
         }
         .store(in: &subscriptions)
     }
@@ -110,8 +97,7 @@ class GameViewModel: ObservableObject {
     }
     
     func play() {
-        guard gameState == .readyToPlay || gameState == .gameOver else { return }
-        gameState = .playing
+        logic.play()
     }
     
     func onDrag(dragLocation: CGPoint, screenSize: CGSize) {
@@ -123,18 +109,16 @@ class GameViewModel: ObservableObject {
     }
     
     private func onGoal() {
-        gameState = .goal
         Task {
             try? await Task.sleep(nanoseconds: NSEC_PER_SEC * 2)
-            gameState = .playing
+            logic.play()
         }
     }
     
     private func onGameOver() {
-        gameState = .gameOver
         Task {
             try? await Task.sleep(nanoseconds: NSEC_PER_SEC * 3)
-            gameState = .readyToPlay
+            logic.ready()
         }
     }
 }

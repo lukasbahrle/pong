@@ -9,7 +9,7 @@ import SwiftUI
 
 extension GameViewModel {
     func draw(context: GraphicsContext, canvasSize: CGSize) {
-        logic.draw(context: context, canvasSize: canvasSize, drawBall: gameState != .readyToPlay)
+        logic.draw(context: context, canvasSize: canvasSize, drawBall: gameState != .ready)
     }
 }
 

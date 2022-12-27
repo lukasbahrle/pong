@@ -43,7 +43,7 @@ class SimpleGameController: GameController {
     }
 }
 
-let logic = GameLogic(target: 3)
+let logic = GameLogic(stateController: GameStateController(score: .initialScore, target: 3))
 
 @MainActor
 struct ContentView: View {
@@ -51,7 +51,7 @@ struct ContentView: View {
     
     private var scoreOpacity: Double {
         switch game.gameState {
-        case .readyToPlay:
+        case .ready:
             return 0
         case .playing:
             return 0.2
@@ -142,7 +142,7 @@ struct ContentView: View {
             }
             .ignoresSafeArea()
             
-            if game.gameState == .readyToPlay {
+            if game.gameState == .ready {
                 Button {
                     game.play()
                 } label: {

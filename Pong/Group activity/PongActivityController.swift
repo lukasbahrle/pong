@@ -15,7 +15,6 @@ class PongActivityController{
     
     private let movePlayerSubject = PassthroughSubject<CGFloat, Never>()
     private let moveOpponentSubject = PassthroughSubject<CGFloat, Never>()
-    private let scoreSubject = PassthroughSubject<(player: Int, opponent: Int, isGameOver: Bool), Never>()
     
     private var messenger: GroupSessionMessenger?
     private var udpMessenger: GroupSessionMessenger?
@@ -94,8 +93,12 @@ extension PongActivityController: GameInput {
         await gameInput.load()
     }
     
-    func play(reset: Bool) {
-        gameInput.play(reset: reset)
+    func ready() {
+        gameInput.ready()
+    }
+    
+    func play() {
+        gameInput.play()
     }
     
     func movePlayer(x: CGFloat) {
@@ -112,12 +115,12 @@ extension PongActivityController: GameInput {
 }
 
 // MARK: - GameOutput
-
+/*
 extension PongActivityController: GameOutput {
-    var scorePublisher: AnyPublisher<(player: Int, opponent: Int, isGameOver: Bool), Never> {
-        scoreSubject.eraseToAnyPublisher()
+    var statePublisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never> {
+        gameO
     }
-}
+}*/
 
 // MARK: - GameController
 

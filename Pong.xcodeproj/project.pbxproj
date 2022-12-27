@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DA41CF1F294EE44900CE7275 /* PongActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41CF1E294EE44900CE7275 /* PongActivity.swift */; };
 		DA41CF22294EE57100CE7275 /* PongActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41CF21294EE57100CE7275 /* PongActivityController.swift */; };
+		DA78AA15295B9B3C00B5B514 /* GameStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA78AA14295B9B3C00B5B514 /* GameStateController.swift */; };
 		DA9F94852943D24900595940 /* PongApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F94842943D24900595940 /* PongApp.swift */; };
 		DA9F94872943D24900595940 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F94862943D24900595940 /* ContentView.swift */; };
 		DA9F94892943D24B00595940 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA9F94882943D24B00595940 /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 		DA41CF1E294EE44900CE7275 /* PongActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PongActivity.swift; sourceTree = "<group>"; };
 		DA41CF20294EE47400CE7275 /* Pong.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pong.entitlements; sourceTree = "<group>"; };
 		DA41CF21294EE57100CE7275 /* PongActivityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PongActivityController.swift; sourceTree = "<group>"; };
+		DA78AA14295B9B3C00B5B514 /* GameStateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateController.swift; sourceTree = "<group>"; };
 		DA9F94812943D24900595940 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA9F94842943D24900595940 /* PongApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PongApp.swift; sourceTree = "<group>"; };
 		DA9F94862943D24900595940 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				DADC0D912947D40600B490EE /* GameObject */,
 				DADC0D772944D17100B490EE /* GameScore.swift */,
 				DADC0D752944CBF000B490EE /* GameLogic.swift */,
+				DA78AA14295B9B3C00B5B514 /* GameStateController.swift */,
 			);
 			path = "Game logic";
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				DADC0D882946735800B490EE /* GameViewModel.swift in Sources */,
 				DA9F94852943D24900595940 /* PongApp.swift in Sources */,
 				DADC0D8F2947D3D700B490EE /* GameObject+Collisions.swift in Sources */,
+				DA78AA15295B9B3C00B5B514 /* GameStateController.swift in Sources */,
 				DADC0D8D2946796900B490EE /* GameViewModel+Draw.swift in Sources */,
 				DA41CF1F294EE44900CE7275 /* PongActivity.swift in Sources */,
 				DA41CF22294EE57100CE7275 /* PongActivityController.swift in Sources */,
