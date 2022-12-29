@@ -25,9 +25,9 @@ class GameLogic: GameInput, GameOutput {
     
     private var lastUpdate: TimeInterval = -1
     
-    private let stateController: GameStateController
+    private let stateController: GameStateControllable
     
-    init(stateController: GameStateController) {
+    init(stateController: GameStateControllable) {
         self.stateController = stateController
     }
     

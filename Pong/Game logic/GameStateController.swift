@@ -15,7 +15,19 @@ enum GameState {
     case gameOver
 }
 
-class GameStateController {
+
+protocol GameStateControllable {
+    var publisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never> { get }
+    
+    var state: GameState { get }
+    
+    func ready()
+    func play() -> Bool
+    func playerScores()
+    func opponentScores()
+}
+
+class GameStateController: GameStateControllable {
     var publisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never> {
         stateSubject
             .map { [weak self] state in
