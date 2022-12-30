@@ -25,6 +25,14 @@ class PongActivityController {
     
     private var groupSession: GroupSession<PongActivity>?
     
+    private var participantsSubject = CurrentValueSubject<(player: UUID?, opponent: UUID?), Never>((player: nil, opponent: nil))
+    private var playerId: UUID? {
+        participantsSubject.value.player
+    }
+    private var opponentId: UUID? {
+        participantsSubject.value.opponent
+    }
+    
     init(gameInput: GameInput, gameOutput: GameOutput, setStateControllerEnabled: @escaping (Bool) -> Void) {
         self.gameInput = gameInput
         self.gameOutput = gameOutput
@@ -50,8 +58,8 @@ class PongActivityController {
             .store(in: &subscriptions)
         
         groupSession.$activeParticipants
-            .sink { participants in
-                
+            .sink { [weak self] participants in
+                self?.onParticipantsListUpdate(participants)
             }
             .store(in: &subscriptions)
         
@@ -66,6 +74,10 @@ class PongActivityController {
                 print("Failed to activate Pong activity: \(error)")
             }
         }
+    }
+    
+    private func onParticipantsListUpdate(_ participants: Set<Participant>) {
+        
     }
 }
 
@@ -118,7 +130,24 @@ extension PongActivityController: GameInput {
 // MARK: - GameOutput
 extension PongActivityController: GameOutput {
     var statePublisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never> {
-        gameOutput.statePublisher
+        gameOutput.statePublisher.combineLatest(participantsSubject).map { input in
+            let playerId = input.1.player
+            let opponentId = input.1.opponent
+            let score = input.0.score
+            
+            if playerId == nil, opponentId == nil {
+                return (state: .notReady(.all), score: score)
+            }
+            else if self.playerId == nil {
+                return (state: .notReady(.player), score: score)
+            }
+            else if self.opponentId == nil {
+                return (state: .notReady(.opponent), score: score)
+            }
+            
+            return (state: input.0.state, score: score)
+        }
+        .eraseToAnyPublisher()
     }
 }
 
