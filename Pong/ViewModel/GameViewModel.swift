@@ -9,11 +9,6 @@ import Foundation
 import Combine
 
 protocol GameController {
-    func load() async
-    
-    var playerIsActivePublisher: AnyPublisher<Bool, Never> { get }
-    var opponentIsActivePublisher: AnyPublisher<Bool, Never> { get }
-    
     var movePlayerPublisher: AnyPublisher<CGFloat, Never> { get }
     var moveOpponentPublisher: AnyPublisher<CGFloat, Never> { get }
     
@@ -59,18 +54,6 @@ class GameViewModel: ObservableObject {
         self.gameInput = gameInput
         self.gameOutput = gameOutput
         self.gameController = gameController
-        
-        self.gameController.playerIsActivePublisher.sink { [weak self] value in
-            guard let self else { return }
-            
-        }
-        .store(in: &subscriptions)
-        
-        self.gameController.opponentIsActivePublisher.sink { [weak self] value in
-            guard let self else { return }
-            
-        }
-        .store(in: &subscriptions)
         
         self.gameController.movePlayerPublisher.sink { [weak self] value in
             guard let self else { return }

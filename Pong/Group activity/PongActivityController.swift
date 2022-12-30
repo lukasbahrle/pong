@@ -9,10 +9,7 @@ import Foundation
 import Combine
 import GroupActivities
 
-class PongActivityController{
-    private let playerIsActiveSubject = CurrentValueSubject<Bool, Never>(false)
-    private let opponentIsActiveSubject = CurrentValueSubject<Bool, Never>(false)
-    
+class PongActivityController {
     private let movePlayerSubject = PassthroughSubject<CGFloat, Never>()
     private let moveOpponentSubject = PassthroughSubject<CGFloat, Never>()
     
@@ -23,11 +20,15 @@ class PongActivityController{
     private var tasks = Set<Task<Void, Never>>()
    
     private let gameInput: GameInput
+    private let gameOutput: GameOutput
+    private let setStateControllerEnabled: (Bool) -> Void
     
     private var groupSession: GroupSession<PongActivity>?
     
-    init(gameInput: GameInput) {
+    init(gameInput: GameInput, gameOutput: GameOutput, setStateControllerEnabled: @escaping (Bool) -> Void) {
         self.gameInput = gameInput
+        self.gameOutput = gameOutput
+        self.setStateControllerEnabled = setStateControllerEnabled
     }
     
     // MARK: - Session
@@ -115,24 +116,15 @@ extension PongActivityController: GameInput {
 }
 
 // MARK: - GameOutput
-/*
 extension PongActivityController: GameOutput {
     var statePublisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never> {
-        gameO
+        gameOutput.statePublisher
     }
-}*/
+}
 
 // MARK: - GameController
 
 extension PongActivityController: GameController {
-    var playerIsActivePublisher: AnyPublisher<Bool, Never> {
-        playerIsActiveSubject.eraseToAnyPublisher()
-    }
-    
-    var opponentIsActivePublisher: AnyPublisher<Bool, Never> {
-        opponentIsActiveSubject.eraseToAnyPublisher()
-    }
-    
     var movePlayerPublisher: AnyPublisher<CGFloat, Never> {
         movePlayerSubject.eraseToAnyPublisher()
     }

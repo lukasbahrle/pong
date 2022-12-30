@@ -9,20 +9,10 @@ import SwiftUI
 import Combine
 
 class SimpleGameController: GameController {
-    var playerIsActivePublisher: AnyPublisher<Bool, Never>{
-        playerIsActiveSubject.eraseToAnyPublisher()
-    }
-    private let playerIsActiveSubject = CurrentValueSubject<Bool, Never>(true)
-    
     var movePlayerPublisher: AnyPublisher<CGFloat, Never> {
         movePlayerSubject.eraseToAnyPublisher()
     }
     private let movePlayerSubject = PassthroughSubject<CGFloat, Never>()
-    
-    var opponentIsActivePublisher: AnyPublisher<Bool, Never>{
-        opponentIsActiveSubject.eraseToAnyPublisher()
-    }
-    private let opponentIsActiveSubject = CurrentValueSubject<Bool, Never>(true)
     
     var moveOpponentPublisher: AnyPublisher<CGFloat, Never> {
         moveOpponentSubject.eraseToAnyPublisher()
@@ -43,21 +33,26 @@ class SimpleGameController: GameController {
     }
 }
 
-let logic = GameLogic(stateController: GameStateController(score: .initialScore, target: 3))
+//let logic = GameLogic(stateController: GameStateController(score: .initialScore, target: 3))
+
+let stateController = DisableableGameStateController(gameStateController: GameStateController(score: .initialScore, target: 3))
+let logic = GameLogic(stateController: stateController)
+let activityController = PongActivityController(gameInput: logic, gameOutput: logic) { isEnabled in
+    stateController.isEnabled = isEnabled
+}
+
 
 @MainActor
 struct ContentView: View {
-    @StateObject var game = GameViewModel(gameInput: logic, gameOutput: logic, gameController: SimpleGameController())
+    @StateObject var game = GameViewModel(gameInput: activityController, gameOutput: activityController, gameController: activityController)
     
     private var scoreOpacity: Double {
         switch game.gameState {
-        case .ready:
+        case .notReady, .ready:
             return 0
         case .playing:
             return 0.2
-        case .goal:
-            return 1.0
-        case .gameOver:
+        case .goal, .gameOver:
             return 1.0
         }
     }

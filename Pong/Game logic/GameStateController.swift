@@ -8,13 +8,19 @@
 import Foundation
 import Combine
 
-enum GameState {
+enum PlayerType {
+    case player
+    case opponent
+    case all
+}
+
+enum GameState: Equatable {
+    case notReady(PlayerType)
     case ready
     case playing
     case goal
     case gameOver
 }
-
 
 protocol GameStateControllable {
     var publisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never> { get }
@@ -26,6 +32,45 @@ protocol GameStateControllable {
     func playerScores()
     func opponentScores()
 }
+
+class DisableableGameStateController: GameStateControllable {
+    private let gameStateController: GameStateControllable
+    var isEnabled: Bool
+    
+    init(gameStateController: GameStateControllable, isEnabled: Bool = true) {
+        self.gameStateController = gameStateController
+        self.isEnabled = isEnabled
+    }
+    
+    var publisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never> {
+        gameStateController.publisher
+    }
+    
+    var state: GameState {
+        gameStateController.state
+    }
+    
+    func ready() {
+        guard isEnabled else { return }
+        gameStateController.ready()
+    }
+    
+    func play() -> Bool {
+        guard isEnabled else { return true }
+        return gameStateController.play()
+    }
+    
+    func playerScores() {
+        guard isEnabled else { return }
+        gameStateController.playerScores()
+    }
+    
+    func opponentScores() {
+        guard isEnabled else { return }
+        gameStateController.opponentScores()
+    }
+}
+
 
 class GameStateController: GameStateControllable {
     var publisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never> {
@@ -40,7 +85,7 @@ class GameStateController: GameStateControllable {
     var state: GameState {
         stateSubject.value
     }
-    private let stateSubject = CurrentValueSubject<GameState, Never>(.ready)
+    private let stateSubject = CurrentValueSubject<GameState, Never>(.notReady(.all))
     private var score: GameScore
     private var target: Int
     
