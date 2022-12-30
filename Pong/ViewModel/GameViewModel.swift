@@ -30,7 +30,7 @@ protocol GameOutput {
 
 @MainActor
 class GameViewModel: ObservableObject {
-    @Published var gameState: GameState = .ready {
+    @Published var gameState: GameState = .notReady(.all) {
         didSet {
             if gameState == .gameOver {
                 onGameOver()

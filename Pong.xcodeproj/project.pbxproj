@@ -14,6 +14,8 @@
 		DA9F94872943D24900595940 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F94862943D24900595940 /* ContentView.swift */; };
 		DA9F94892943D24B00595940 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA9F94882943D24B00595940 /* Assets.xcassets */; };
 		DA9F948C2943D24B00595940 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA9F948B2943D24B00595940 /* Preview Assets.xcassets */; };
+		DAD3AB21295EDAFA0000470C /* JoinToPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3AB20295EDAFA0000470C /* JoinToPlayView.swift */; };
+		DAD3AB24295EDC4C0000470C /* ActivitySharingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3AB23295EDC4C0000470C /* ActivitySharingViewController.swift */; };
 		DADC0D762944CBF000B490EE /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D752944CBF000B490EE /* GameLogic.swift */; };
 		DADC0D782944D17100B490EE /* GameScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D772944D17100B490EE /* GameScore.swift */; };
 		DADC0D7A2944D1AD00B490EE /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D792944D1AD00B490EE /* GameObject.swift */; };
@@ -35,6 +37,8 @@
 		DA9F94862943D24900595940 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DA9F94882943D24B00595940 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA9F948B2943D24B00595940 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		DAD3AB20295EDAFA0000470C /* JoinToPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinToPlayView.swift; sourceTree = "<group>"; };
+		DAD3AB23295EDC4C0000470C /* ActivitySharingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySharingViewController.swift; sourceTree = "<group>"; };
 		DADC0D752944CBF000B490EE /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		DADC0D772944D17100B490EE /* GameScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScore.swift; sourceTree = "<group>"; };
 		DADC0D792944D1AD00B490EE /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
@@ -106,6 +110,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		DAD3AB22295EDC3D0000470C /* Group Activity */ = {
+			isa = PBXGroup;
+			children = (
+				DAD3AB23295EDC4C0000470C /* ActivitySharingViewController.swift */,
+			);
+			path = "Group Activity";
+			sourceTree = "<group>";
+		};
 		DADC0D8229466EB500B490EE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,8 +129,10 @@
 		DADC0D852946731100B490EE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DAD3AB22295EDC3D0000470C /* Group Activity */,
 				DADC0D892946761F00B490EE /* GameObjects */,
 				DA9F94862943D24900595940 /* ContentView.swift */,
+				DAD3AB20295EDAFA0000470C /* JoinToPlayView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -237,6 +251,7 @@
 				DADC0D93294854ED00B490EE /* Wall.swift in Sources */,
 				DADC0D8B2946764900B490EE /* GameObject+Canvas.swift in Sources */,
 				DADC0D8429466EE500B490EE /* CGPoint+Arithmetic.swift in Sources */,
+				DAD3AB24295EDC4C0000470C /* ActivitySharingViewController.swift in Sources */,
 				DADC0D882946735800B490EE /* GameViewModel.swift in Sources */,
 				DA9F94852943D24900595940 /* PongApp.swift in Sources */,
 				DADC0D8F2947D3D700B490EE /* GameObject+Collisions.swift in Sources */,
@@ -244,6 +259,7 @@
 				DADC0D8D2946796900B490EE /* GameViewModel+Draw.swift in Sources */,
 				DA41CF1F294EE44900CE7275 /* PongActivity.swift in Sources */,
 				DA41CF22294EE57100CE7275 /* PongActivityController.swift in Sources */,
+				DAD3AB21295EDAFA0000470C /* JoinToPlayView.swift in Sources */,
 				DADC0D7A2944D1AD00B490EE /* GameObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

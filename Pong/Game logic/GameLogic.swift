@@ -30,7 +30,9 @@ class GameLogic: GameInput, GameOutput {
         self.stateController = stateController
     }
     
-    func load() {}
+    func load() {
+        ready()
+    }
     
     func ready() {
         stateController.ready()

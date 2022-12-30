@@ -137,18 +137,7 @@ struct ContentView: View {
             }
             .ignoresSafeArea()
             
-            if game.gameState == .ready {
-                Button {
-                    game.play()
-                } label: {
-                    Text("Play")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 10)
-                        .background(Capsule())
-                }
-            }
+            JoinToPlayView(gameState: game.gameState, action: { game.play() })
         }
         .background(Color.black)
         .task {

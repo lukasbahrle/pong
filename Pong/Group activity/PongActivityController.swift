@@ -88,10 +88,10 @@ extension PongActivityController {
 
 extension PongActivityController: GameInput {
     func load() async {
+        await gameInput.load()
         for await session in PongActivity.sessions() {
             configureGroupSession(session)
         }
-        await gameInput.load()
     }
     
     func ready() {
