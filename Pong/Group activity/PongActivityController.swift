@@ -27,12 +27,6 @@ class PongActivityController {
     private var groupSession: GroupSession<PongActivity>?
     
     private var playersSubject = CurrentValueSubject<(player: UUID?, opponent: UUID?), Never>((player: nil, opponent: nil))
-    private var playerId: UUID? {
-        playersSubject.value.player
-    }
-    private var opponentId: UUID? {
-        playersSubject.value.opponent
-    }
     
     init(gameInput: GameInput, gameOutput: GameOutput, setStateControllerIsEnabled: @escaping (Bool) -> Void, updateStateController: @escaping (GameState, (Int, Int)) -> Void) {
         self.gameInput = gameInput
@@ -88,7 +82,7 @@ class PongActivityController {
             playersSubject.value = (localParticipant.id, nil)
         }
         else if participants.count > 1 {
-            var opponent = participants.first { participant in
+            let opponent = participants.first { participant in
                 participant != localParticipant
             }
             playersSubject.value = (localParticipant.id, opponent?.id)
@@ -153,10 +147,10 @@ extension PongActivityController: GameOutput {
             if playerId == nil, opponentId == nil {
                 return (state: .notReady(.all), score: score)
             }
-            else if self.playerId == nil {
+            else if playerId == nil {
                 return (state: .notReady(.player), score: score)
             }
-            else if self.opponentId == nil {
+            else if opponentId == nil {
                 return (state: .notReady(.opponent), score: score)
             }
             
