@@ -33,14 +33,15 @@ class SimpleGameController: GameController {
     }
 }
 
-//let logic = GameLogic(stateController: GameStateController(score: .initialScore, target: 3))
-
-let stateController = DisableableGameStateController(gameStateController: GameStateController(score: .initialScore, target: 3))
+let stateController = GameStateController(score: .initialScore, target: 3)
+let disableableStateController = DisableableGameStateController(gameStateController: stateController)
 let logic = GameLogic(stateController: stateController)
-let activityController = PongActivityController(gameInput: logic, gameOutput: logic) { isEnabled in
-    stateController.isEnabled = isEnabled
-}
 
+let activityController = PongActivityController(gameInput: logic, gameOutput: logic) { isEnabled in
+    disableableStateController.isEnabled = isEnabled
+} updateStateController: { state, score in
+    stateController.update(state, score: score)
+}
 
 @MainActor
 struct ContentView: View {

@@ -21,22 +21,24 @@ class PongActivityController {
    
     private let gameInput: GameInput
     private let gameOutput: GameOutput
-    private let setStateControllerEnabled: (Bool) -> Void
+    private let setStateControllerIsEnabled: (Bool) -> Void
+    private let updateStateController: (GameState, (Int, Int)) -> Void
     
     private var groupSession: GroupSession<PongActivity>?
     
-    private var participantsSubject = CurrentValueSubject<(player: UUID?, opponent: UUID?), Never>((player: nil, opponent: nil))
+    private var playersSubject = CurrentValueSubject<(player: UUID?, opponent: UUID?), Never>((player: nil, opponent: nil))
     private var playerId: UUID? {
-        participantsSubject.value.player
+        playersSubject.value.player
     }
     private var opponentId: UUID? {
-        participantsSubject.value.opponent
+        playersSubject.value.opponent
     }
     
-    init(gameInput: GameInput, gameOutput: GameOutput, setStateControllerEnabled: @escaping (Bool) -> Void) {
+    init(gameInput: GameInput, gameOutput: GameOutput, setStateControllerIsEnabled: @escaping (Bool) -> Void, updateStateController: @escaping (GameState, (Int, Int)) -> Void) {
         self.gameInput = gameInput
         self.gameOutput = gameOutput
-        self.setStateControllerEnabled = setStateControllerEnabled
+        self.setStateControllerIsEnabled = setStateControllerIsEnabled
+        self.updateStateController = updateStateController
     }
     
     // MARK: - Session
@@ -59,7 +61,7 @@ class PongActivityController {
         
         groupSession.$activeParticipants
             .sink { [weak self] participants in
-                self?.onParticipantsListUpdate(participants)
+                self?.onParticipantsListUpdate(participants, localParticipant: groupSession.localParticipant)
             }
             .store(in: &subscriptions)
         
@@ -130,7 +132,7 @@ extension PongActivityController: GameInput {
 // MARK: - GameOutput
 extension PongActivityController: GameOutput {
     var statePublisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never> {
-        gameOutput.statePublisher.combineLatest(participantsSubject).map { input in
+        gameOutput.statePublisher.combineLatest(playersSubject).map { input in
             let playerId = input.1.player
             let opponentId = input.1.opponent
             let score = input.0.score

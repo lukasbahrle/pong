@@ -94,6 +94,12 @@ class GameStateController: GameStateControllable {
         self.target = target
     }
     
+    func update(_ state: GameState, score: (player: Int, opponent: Int)) {
+        self.score.player = score.player
+        self.score.opponent = score.opponent
+        stateSubject.value = state
+    }
+    
     func ready() {
         score.reset()
         stateSubject.value = .ready
