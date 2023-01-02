@@ -78,8 +78,21 @@ class PongActivityController {
         }
     }
     
-    private func onParticipantsListUpdate(_ participants: Set<Participant>) {
+    private func onParticipantsListUpdate(_ participants: Set<Participant>, localParticipant: Participant) {
+        guard participants.contains(localParticipant) else {
+            playersSubject.value = (nil, nil)
+            return
+        }
         
+        if participants.count == 1 {
+            playersSubject.value = (localParticipant.id, nil)
+        }
+        else if participants.count > 1 {
+            var opponent = participants.first { participant in
+                participant != localParticipant
+            }
+            playersSubject.value = (localParticipant.id, opponent?.id)
+        }
     }
 }
 
