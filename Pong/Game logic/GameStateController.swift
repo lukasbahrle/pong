@@ -8,18 +8,23 @@
 import Foundation
 import Combine
 
-enum PlayerType {
+enum PlayerType: Codable {
     case player
     case opponent
     case all
 }
 
-enum GameState: Equatable {
+enum GameState: Equatable, Codable {
     case notReady(PlayerType)
     case ready
     case playing
     case goal
     case gameOver
+}
+
+enum StartDirection: Codable {
+    case towardsPlayer
+    case towardsOpponent
 }
 
 protocol GameStateControllable {
@@ -28,7 +33,7 @@ protocol GameStateControllable {
     var state: GameState { get }
     
     func ready()
-    func play() -> Bool
+    func play(startDirection: StartDirection)
     func playerScores()
     func opponentScores()
 }
@@ -55,9 +60,9 @@ class DisableableGameStateController: GameStateControllable {
         gameStateController.ready()
     }
     
-    func play() -> Bool {
-        guard isEnabled else { return true }
-        return gameStateController.play()
+    func play(startDirection: StartDirection) {
+        guard isEnabled else { return }
+        gameStateController.play(startDirection: startDirection)
     }
     
     func playerScores() {
@@ -105,12 +110,11 @@ class GameStateController: GameStateControllable {
         stateSubject.value = .ready
     }
     
-    func play() -> Bool {
+    func play(startDirection: StartDirection) {
         guard state == .goal || state == .ready else {
-            return false
+            return
         }
         stateSubject.value = .playing
-        return true
     }
     
     func playerScores() {

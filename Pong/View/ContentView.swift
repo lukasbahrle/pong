@@ -7,45 +7,53 @@
 
 import SwiftUI
 import Combine
-
-class SimpleGameController: GameController {
-    var movePlayerPublisher: AnyPublisher<CGFloat, Never> {
-        movePlayerSubject.eraseToAnyPublisher()
-    }
-    private let movePlayerSubject = PassthroughSubject<CGFloat, Never>()
+import GroupActivities
+struct MockPongGroupSessionConfiguration {
+    let participantId = UUID()
+    let messenger = MockPongGroupSessionMessenger()
     
-    var moveOpponentPublisher: AnyPublisher<CGFloat, Never> {
-        moveOpponentSubject.eraseToAnyPublisher()
-    }
-    private let moveOpponentSubject = PassthroughSubject<CGFloat, Never>()
-    
-    func load() async {}
-    
-    func onDrag(dragLocation: CGPoint, screenSize: CGSize) {
-        let y = dragLocation.y / screenSize.height
-        
-        if y < 0.5 {
-            moveOpponentSubject.send(dragLocation.x / screenSize.width)
-        }
-        else {
-            movePlayerSubject.send(dragLocation.x / screenSize.width)
-        }
+    func participantsConfig(opponent: UUID, isFirst: Bool) -> MockGroupSessionParticipants {
+        .init(local: PongParticipant(id: participantId), opponent: PongParticipant(id: opponent), isFirst: isFirst)
     }
 }
 
-let stateController = GameStateController(score: .initialScore, target: 3)
-let disableableStateController = DisableableGameStateController(gameStateController: stateController)
-let logic = GameLogic(stateController: stateController)
-
-let activityController = PongActivityController(gameInput: logic, gameOutput: logic) { isEnabled in
-    disableableStateController.isEnabled = isEnabled
-} updateStateController: { state, score in
-    stateController.update(state, score: score)
-}
+let config1 = MockPongGroupSessionConfiguration()
+let config2 = MockPongGroupSessionConfiguration()
 
 @MainActor
 struct ContentView: View {
-    @StateObject var game = GameViewModel(gameInput: activityController, gameOutput: activityController, gameController: activityController)
+    var gameViewModel: (PongGroupSessionMessenger, MockGroupSessionParticipants) -> GameViewModel = { messenger, participantsConfig in
+        
+        config1.messenger.receiver = config2.messenger
+        config2.messenger.receiver = config1.messenger
+        
+        let stateController = GameStateController(score: .initialScore, target: 3)
+        let disableableStateController = DisableableGameStateController(gameStateController: stateController)
+        let logic = GameLogic(stateController: disableableStateController)
+
+
+        let activityController = PongActivityController(groupActivity: MockPongGroupActivity(messenger: {messenger}, participantsConfig: participantsConfig), gameInput: logic, gameOutput: logic) { isEnabled in
+            disableableStateController.isEnabled = isEnabled
+        } updateStateController: { state, score in
+            stateController.update(state, score: score)
+        }
+        
+        return GameViewModel(gameInput: activityController, gameOutput: activityController, gameController: activityController)
+    }
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            GameView(game: gameViewModel(config1.messenger, config1.participantsConfig(opponent: config2.participantId, isFirst: true)))
+                .padding(.horizontal, 50)
+            GameView(game: gameViewModel(config2.messenger, config2.participantsConfig(opponent: config1.participantId, isFirst: false)))
+        }
+        .background(Color.gray)
+    }
+}
+
+@MainActor
+struct GameView: View {
+    @ObservedObject var game: GameViewModel
     
     private var scoreOpacity: Double {
         switch game.gameState {

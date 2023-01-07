@@ -20,11 +20,11 @@ private extension GameState {
 
 extension GameViewModel {
     func draw(context: GraphicsContext, canvasSize: CGSize) {
-        logic.draw(context: context, canvasSize: canvasSize, drawBall: gameState.drawBall)
+        gameOutput.draw(context: context, canvasSize: canvasSize, drawBall: gameState.drawBall)
     }
 }
 
-private extension GameLogic {
+private extension GameOutput {
     func draw(context: GraphicsContext, canvasSize: CGSize, drawBall: Bool) {
         if drawBall { ball.draw(context: context, canvasSize: canvasSize, color: .white, path: .ball) }
         player.draw(context: context, canvasSize: canvasSize, color: .white, path: .paddle)

@@ -13,8 +13,8 @@ class PongActivityController {
     private let movePlayerSubject = PassthroughSubject<CGFloat, Never>()
     private let moveOpponentSubject = PassthroughSubject<CGFloat, Never>()
     
-    private var messenger: GroupSessionMessenger?
-    private var udpMessenger: GroupSessionMessenger?
+    private var messenger: PongGroupSessionMessenger?
+    private var udpMessenger: PongGroupSessionMessenger?
     
     private var subscriptions = Set<AnyCancellable>()
     private var tasks = Set<Task<Void, Never>>()
@@ -24,27 +24,50 @@ class PongActivityController {
     private let setStateControllerIsEnabled: (Bool) -> Void
     private let updateStateController: (GameState, (Int, Int)) -> Void
     
-    private var groupSession: GroupSession<PongActivity>?
+    private var groupSession: PongGroupSession?
+    
+    private let groupActivity: PongGroupActivity
     
     private var playersSubject = CurrentValueSubject<(player: UUID?, opponent: UUID?), Never>((player: nil, opponent: nil))
     
-    init(gameInput: GameInput, gameOutput: GameOutput, setStateControllerIsEnabled: @escaping (Bool) -> Void, updateStateController: @escaping (GameState, (Int, Int)) -> Void) {
+    private var isInControl: Bool = false {
+        didSet {
+            setStateControllerIsEnabled(isInControl)
+        }
+    }
+    
+    init(groupActivity: PongGroupActivity, gameInput: GameInput, gameOutput: GameOutput, setStateControllerIsEnabled: @escaping (Bool) -> Void, updateStateController: @escaping (GameState, (Int, Int)) -> Void) {
+        self.groupActivity = groupActivity
         self.gameInput = gameInput
         self.gameOutput = gameOutput
         self.setStateControllerIsEnabled = setStateControllerIsEnabled
         self.updateStateController = updateStateController
+        
+        self.gameOutput.statePublisher.sink { [weak self] (state, score) in
+            guard let self, self.isInControl, let messenger = self.messenger, let playerId = self.playersSubject.value.player, let opponentId = self.playersSubject.value.opponent  else { return }
+            
+            messenger.send(GameStateMessage(score: [
+                playerId: score.player,
+                opponentId: score.opponent
+            ], state: state), completion: { _ in })
+        }
+        .store(in: &subscriptions)
     }
     
     // MARK: - Session
     
-    private func configureGroupSession(_ groupSession: GroupSession<PongActivity>) {
-        let messenger = GroupSessionMessenger(session: groupSession, deliveryMode: .unreliable)
-        self.messenger = messenger
+    private func configureGroupSession(_ groupSession: PongGroupSession) {
+        isInControl = false
         
-        let udpMessenger = GroupSessionMessenger(session: groupSession, deliveryMode: .unreliable)
+        let messenger = groupSession.messenger(deliveryMode: .reliable)
+        self.messenger = messenger
+
+        let udpMessenger = groupSession.messenger(deliveryMode: .unreliable)
         self.udpMessenger = udpMessenger
         
-        groupSession.$state
+        self.groupSession = groupSession
+        
+        groupSession.statePublisher
             .sink { state in
                 if case .invalidated = state {
                     self.groupSession = nil
@@ -53,9 +76,33 @@ class PongActivityController {
             }
             .store(in: &subscriptions)
         
-        groupSession.$activeParticipants
+        groupSession.activeParticipantsPublisher
             .sink { [weak self] participants in
-                self?.onParticipantsListUpdate(participants, localParticipant: groupSession.localParticipant)
+                self?.onParticipantsListUpdate(participants, localParticipant: groupSession.localPongParticipant)
+            }
+            .store(in: &subscriptions)
+        
+        udpMessenger.messages(of: GameUpdateMessage.self)
+            .sink { [weak self] message in
+                guard let self else { return }
+                self.moveOpponent(x: 1 - message.playerPaddle)
+                
+                guard !self.isInControl else { return }
+                
+                let ballVelocity = message.ball.velocity * -1
+                
+                if self.ball.velocity != ballVelocity {
+                    self.updateBall(position: 1 - message.ball.position, velocity: ballVelocity)
+                }
+            }
+            .store(in: &subscriptions)
+        
+        messenger.messages(of: GameStateMessage.self)
+            .sink { [weak self] message in
+                guard let self, !self.isInControl, let playerId = self.playersSubject.value.player, let playerScore = message.score[playerId], let opponentId = self.playersSubject.value.opponent, let opponentScore = message.score[opponentId] else { return }
+                
+                self.updateStateController(message.state, (playerScore, opponentScore))
+                
             }
             .store(in: &subscriptions)
         
@@ -72,13 +119,14 @@ class PongActivityController {
         }
     }
     
-    private func onParticipantsListUpdate(_ participants: Set<Participant>, localParticipant: Participant) {
+    private func onParticipantsListUpdate(_ participants: Set<PongParticipant>, localParticipant: PongParticipant) {
         guard participants.contains(localParticipant) else {
             playersSubject.value = (nil, nil)
             return
         }
         
         if participants.count == 1 {
+            isInControl = true
             playersSubject.value = (localParticipant.id, nil)
         }
         else if participants.count > 1 {
@@ -110,7 +158,8 @@ extension PongActivityController {
 extension PongActivityController: GameInput {
     func load() async {
         await gameInput.load()
-        for await session in PongActivity.sessions() {
+        
+        for await session in groupActivity.sessionsPublisher.values {
             configureGroupSession(session)
         }
     }
@@ -119,8 +168,8 @@ extension PongActivityController: GameInput {
         gameInput.ready()
     }
     
-    func play() {
-        gameInput.play()
+    func play(startDirection: StartDirection?) {
+        gameInput.play(startDirection: isInControl ? .towardsPlayer : .towardsOpponent)
     }
     
     func movePlayer(x: CGFloat) {
@@ -131,13 +180,37 @@ extension PongActivityController: GameInput {
         gameInput.moveOpponent(x: x)
     }
     
+    func updateBall(position: CGPoint, velocity: CGPoint) {
+        gameInput.updateBall(position: position, velocity: velocity)
+    }
+    
     func update(timestamp: TimeInterval, screenRatio: CGFloat) {
         gameInput.update(timestamp: timestamp, screenRatio: screenRatio)
+        
+        guard let groupSession = groupSession else {
+            return
+        }
+        
+        udpMessenger?.send(
+            GameUpdateMessage(player: groupSession.localPongParticipant.id, playerPaddle: player.position.x, ball: .init(position: ball.position, velocity: ball.velocity)),
+            completion: { _ in })
     }
 }
 
 // MARK: - GameOutput
 extension PongActivityController: GameOutput {
+    var ball: GameObject {
+        gameOutput.ball
+    }
+    
+    var player: GameObject {
+        gameOutput.player
+    }
+    
+    var opponent: GameObject {
+        gameOutput.opponent
+    }
+    
     var statePublisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never> {
         gameOutput.statePublisher.combineLatest(playersSubject).map { input in
             let playerId = input.1.player

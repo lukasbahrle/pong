@@ -28,4 +28,8 @@ extension CGPoint {
     static func *= (left: inout CGPoint, value: CGFloat) {
       left = left * value
     }
+    
+    static func - (left: Double, right: CGPoint) -> CGPoint {
+      return CGPoint(x: left - right.x, y: left - right.y)
+    }
 }

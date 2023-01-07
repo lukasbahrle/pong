@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 class GameLogic: GameInput, GameOutput {
+    
     var statePublisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never> {
         stateController.publisher
             .eraseToAnyPublisher()
@@ -25,9 +26,22 @@ class GameLogic: GameInput, GameOutput {
     private var lastUpdate: TimeInterval = -1
     
     private let stateController: GameStateControllable
+    private var stateCancellable: AnyCancellable?
     
     init(stateController: GameStateControllable) {
         self.stateController = stateController
+        
+        stateCancellable = self.stateController.publisher.sink { [weak self] (state, _) in
+            guard let self else { return }
+            
+            switch state {
+            case .playing:
+                self.ball.position = .init(x: 0.5, y: 0.5)
+                self.ball.velocity = .init(x: 0.5, y: 0.2)
+            default:
+                break
+            }
+        }
     }
     
     func load() {
@@ -38,11 +52,8 @@ class GameLogic: GameInput, GameOutput {
         stateController.ready()
     }
     
-    func play() {
-        guard stateController.play() else { return }
-        
-        ball.position = .init(x: 0.5, y: 0.5)
-        ball.velocity = .init(x: 0.5, y: 0.2)
+    func play(startDirection: StartDirection? = .towardsPlayer) {
+        stateController.play(startDirection: startDirection ?? .towardsPlayer)
     }
     
     func movePlayer(x: CGFloat) {
@@ -54,6 +65,11 @@ class GameLogic: GameInput, GameOutput {
     
     private func movePaddle(_ paddle: GameObject, x: CGFloat) {
         paddle.position.x = min(max(paddle.width * 0.5, x), 1 - paddle.width * 0.5)
+    }
+    
+    func updateBall(position: CGPoint, velocity: CGPoint) {
+        ball.position = position
+        ball.velocity = velocity
     }
     
     func update(timestamp: TimeInterval, screenRatio: CGFloat) {

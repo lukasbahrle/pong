@@ -15,17 +15,23 @@ protocol GameController {
     func onDrag(dragLocation: CGPoint, screenSize: CGSize)
 }
 
+
+
 protocol GameInput {
     func load() async
     func ready()
-    func play()
+    func play(startDirection: StartDirection?)
     func movePlayer(x: CGFloat)
     func moveOpponent(x: CGFloat)
     func update(timestamp: TimeInterval, screenRatio: CGFloat)
+    func updateBall(position: CGPoint, velocity: CGPoint)
 }
 
 protocol GameOutput {
     var statePublisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never>  { get }
+    var ball: GameObject { get }
+    var player: GameObject { get }
+    var opponent: GameObject { get }
 }
 
 @MainActor
@@ -46,9 +52,9 @@ class GameViewModel: ObservableObject {
     
     private var subscriptions = Set<AnyCancellable>()
     
-    private let gameInput: GameInput
-    private let gameOutput: GameOutput
-    private let gameController: GameController
+    let gameInput: GameInput
+    let gameOutput: GameOutput
+    let gameController: GameController
     
     init(gameInput: GameInput, gameOutput: GameOutput, gameController: GameController) {
         self.gameInput = gameInput
@@ -67,7 +73,9 @@ class GameViewModel: ObservableObject {
         }
         .store(in: &subscriptions)
         
-        self.gameOutput.statePublisher.sink {  [weak self] (state: GameState, score: (player: Int, opponent: Int)) in
+        self.gameOutput.statePublisher
+            .receive(on: RunLoop.main)
+            .sink {  [weak self] (state: GameState, score: (player: Int, opponent: Int)) in
             guard let self else { return }
             self.score = score
             self.gameState = state
@@ -80,7 +88,7 @@ class GameViewModel: ObservableObject {
     }
     
     func play() {
-        logic.play()
+        gameInput.play(startDirection: nil)
     }
     
     func onDrag(dragLocation: CGPoint, screenSize: CGSize) {
@@ -94,14 +102,14 @@ class GameViewModel: ObservableObject {
     private func onGoal() {
         Task {
             try? await Task.sleep(nanoseconds: NSEC_PER_SEC * 2)
-            logic.play()
+            gameInput.play(startDirection: nil)
         }
     }
     
     private func onGameOver() {
         Task {
             try? await Task.sleep(nanoseconds: NSEC_PER_SEC * 3)
-            logic.ready()
+            gameInput.ready()
         }
     }
 }

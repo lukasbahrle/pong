@@ -16,6 +16,7 @@
 		DA9F948C2943D24B00595940 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA9F948B2943D24B00595940 /* Preview Assets.xcassets */; };
 		DAD3AB21295EDAFA0000470C /* JoinToPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3AB20295EDAFA0000470C /* JoinToPlayView.swift */; };
 		DAD3AB24295EDC4C0000470C /* ActivitySharingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3AB23295EDC4C0000470C /* ActivitySharingViewController.swift */; };
+		DAD4F05B2962449A00B88CC2 /* GameStateMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD4F05A2962449A00B88CC2 /* GameStateMessage.swift */; };
 		DADC0D762944CBF000B490EE /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D752944CBF000B490EE /* GameLogic.swift */; };
 		DADC0D782944D17100B490EE /* GameScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D772944D17100B490EE /* GameScore.swift */; };
 		DADC0D7A2944D1AD00B490EE /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D792944D1AD00B490EE /* GameObject.swift */; };
@@ -25,6 +26,8 @@
 		DADC0D8D2946796900B490EE /* GameViewModel+Draw.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D8C2946796900B490EE /* GameViewModel+Draw.swift */; };
 		DADC0D8F2947D3D700B490EE /* GameObject+Collisions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D8E2947D3D700B490EE /* GameObject+Collisions.swift */; };
 		DADC0D93294854ED00B490EE /* Wall.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D92294854ED00B490EE /* Wall.swift */; };
+		F5BC0B762966F9980065AD62 /* Interfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BC0B752966F9980065AD62 /* Interfaces.swift */; };
+		F5BC0B7829670BA00065AD62 /* SimpleGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BC0B7729670BA00065AD62 /* SimpleGameController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +42,7 @@
 		DA9F948B2943D24B00595940 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DAD3AB20295EDAFA0000470C /* JoinToPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinToPlayView.swift; sourceTree = "<group>"; };
 		DAD3AB23295EDC4C0000470C /* ActivitySharingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySharingViewController.swift; sourceTree = "<group>"; };
+		DAD4F05A2962449A00B88CC2 /* GameStateMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateMessage.swift; sourceTree = "<group>"; };
 		DADC0D752944CBF000B490EE /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		DADC0D772944D17100B490EE /* GameScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScore.swift; sourceTree = "<group>"; };
 		DADC0D792944D1AD00B490EE /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
@@ -48,6 +52,8 @@
 		DADC0D8C2946796900B490EE /* GameViewModel+Draw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameViewModel+Draw.swift"; sourceTree = "<group>"; };
 		DADC0D8E2947D3D700B490EE /* GameObject+Collisions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameObject+Collisions.swift"; sourceTree = "<group>"; };
 		DADC0D92294854ED00B490EE /* Wall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wall.swift; sourceTree = "<group>"; };
+		F5BC0B752966F9980065AD62 /* Interfaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interfaces.swift; sourceTree = "<group>"; };
+		F5BC0B7729670BA00065AD62 /* SimpleGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleGameController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +70,7 @@
 		DA41CF1D294EE42100CE7275 /* Group activity */ = {
 			isa = PBXGroup;
 			children = (
+				DAD4F0592962447200B88CC2 /* Messages */,
 				DA41CF1E294EE44900CE7275 /* PongActivity.swift */,
 				DA41CF21294EE57100CE7275 /* PongActivityController.swift */,
 			);
@@ -118,6 +125,14 @@
 			path = "Group Activity";
 			sourceTree = "<group>";
 		};
+		DAD4F0592962447200B88CC2 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				DAD4F05A2962449A00B88CC2 /* GameStateMessage.swift */,
+			);
+			path = Messages;
+			sourceTree = "<group>";
+		};
 		DADC0D8229466EB500B490EE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +147,8 @@
 				DAD3AB22295EDC3D0000470C /* Group Activity */,
 				DADC0D892946761F00B490EE /* GameObjects */,
 				DA9F94862943D24900595940 /* ContentView.swift */,
+				F5BC0B7729670BA00065AD62 /* SimpleGameController.swift */,
+				F5BC0B752966F9980065AD62 /* Interfaces.swift */,
 				DAD3AB20295EDAFA0000470C /* JoinToPlayView.swift */,
 			);
 			path = View;
@@ -248,7 +265,9 @@
 				DADC0D782944D17100B490EE /* GameScore.swift in Sources */,
 				DADC0D762944CBF000B490EE /* GameLogic.swift in Sources */,
 				DA9F94872943D24900595940 /* ContentView.swift in Sources */,
+				F5BC0B762966F9980065AD62 /* Interfaces.swift in Sources */,
 				DADC0D93294854ED00B490EE /* Wall.swift in Sources */,
+				F5BC0B7829670BA00065AD62 /* SimpleGameController.swift in Sources */,
 				DADC0D8B2946764900B490EE /* GameObject+Canvas.swift in Sources */,
 				DADC0D8429466EE500B490EE /* CGPoint+Arithmetic.swift in Sources */,
 				DAD3AB24295EDC4C0000470C /* ActivitySharingViewController.swift in Sources */,
@@ -258,6 +277,7 @@
 				DA78AA15295B9B3C00B5B514 /* GameStateController.swift in Sources */,
 				DADC0D8D2946796900B490EE /* GameViewModel+Draw.swift in Sources */,
 				DA41CF1F294EE44900CE7275 /* PongActivity.swift in Sources */,
+				DAD4F05B2962449A00B88CC2 /* GameStateMessage.swift in Sources */,
 				DA41CF22294EE57100CE7275 /* PongActivityController.swift in Sources */,
 				DAD3AB21295EDAFA0000470C /* JoinToPlayView.swift in Sources */,
 				DADC0D7A2944D1AD00B490EE /* GameObject.swift in Sources */,
