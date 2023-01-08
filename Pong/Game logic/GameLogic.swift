@@ -16,8 +16,8 @@ class GameLogic: GameInput, GameOutput {
     }
     
     let ball: GameObject = .ball
-    let player: GameObject = .paddle(true)
-    let opponent: GameObject = .paddle(false)
+    let player: GameObject = .paddle(true, anchor: .centerTop)
+    let opponent: GameObject = .paddle(false, anchor: .centerBottom)
     let wallLeft: GameObject = .wall(.left)
     let wallRight: GameObject = .wall(.right)
     let wallBottom: GameObject = .wall(.bottom)
@@ -37,7 +37,7 @@ class GameLogic: GameInput, GameOutput {
             switch state {
             case .playing:
                 self.ball.position = .init(x: 0.5, y: 0.5)
-                self.ball.velocity = .init(x: 0.5, y: 0.2)
+                self.ball.velocity = .init(x: 0.0, y: 0.2)
             default:
                 break
             }
@@ -68,8 +68,8 @@ class GameLogic: GameInput, GameOutput {
     }
     
     func updateBall(position: CGPoint, velocity: CGPoint) {
-        ball.position = position
-        ball.velocity = velocity
+//        ball.position = position
+//        ball.velocity = velocity
     }
     
     func update(timestamp: TimeInterval, screenRatio: CGFloat) {
@@ -93,17 +93,19 @@ class GameLogic: GameInput, GameOutput {
     }
     
     private func checkCollisions(screenRatio: CGFloat) {
-        if ball.collides(with: player, screenRatio: screenRatio) {
-            ball.position.y = player.position.y - (player.height(screenRatio) + ball.height(screenRatio)) * 0.5
+        if ball.collides(with: player, screenRatio: screenRatio), ball.position.y < player.position.y {
+            ball.position.y = player.frame(screenRatio).minY - ball.height(screenRatio) * 0.5
             ball.velocity.y *= -1
         }
-        else if ball.collides(with: opponent, screenRatio: screenRatio) {
-            ball.position.y = opponent.position.y + (opponent.height(screenRatio) + ball.height(screenRatio)) * 0.5
+        else if ball.collides(with: opponent, screenRatio: screenRatio), ball.position.y > opponent.position.y {
+            ball.position.y = opponent.frame(screenRatio).maxY + ball.height(screenRatio) * 0.5
             ball.velocity.y *= -1
         }
         else if ball.collides(with: wallLeft, screenRatio: screenRatio) || ball.collides(with: wallRight, screenRatio: screenRatio) {
-            ball.position.x = min(1 - ball.width * 0.5, max(ball.width * 0.5, ball.position.x), ball.position.x)
+            ball.position.x = min(1 - ball.width * 0.5, max(ball.width * 0.5, ball.position.x))
+            
             ball.velocity.x *= -1
+            
         }
         else if ball.collides(with: wallBottom, screenRatio: screenRatio) {
             stateController.opponentScores()

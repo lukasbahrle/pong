@@ -7,15 +7,21 @@
 
 import Foundation
 
+enum Anchor {
+    case center
+    case centerTop
+    case centerBottom
+}
+
 extension GameObject {
     static var ball: GameObject {
-        .init(position: .init(x: 0.5, y: 0.5), width: 0.05, aspectRatio: 1.0, velocity: .zero)
+        .init(position: .init(x: 0.5, y: 0.1), width: 0.05, aspectRatio: 1.0, velocity: .zero)
     }
     
-    static func paddle(_ isPlayer: Bool) -> GameObject {
+    static func paddle(_ isPlayer: Bool, anchor: Anchor) -> GameObject {
         let width: CGFloat = 0.24
         let y: CGFloat = isPlayer ? 0.9 : 0.1
-        return .init(position: .init(x: 0.5, y: y), width: width, aspectRatio: 0.2, velocity: .zero)
+        return .init(position: .init(x: 0.5, y: y), width: width, aspectRatio: 0.2, velocity: .zero, anchor: anchor)
     }
     
     static func wall(_ alignment: Wall.Alignment) -> GameObject {
@@ -43,23 +49,26 @@ class GameObject {
     var position: CGPoint
     var velocity: CGPoint
     var width: CGFloat
+    var anchor: Anchor
     private let heightValue: GameObjectHeightValue
     private var prevPosition: CGPoint
     
-    init(position: CGPoint, width: CGFloat, aspectRatio: CGFloat, velocity: CGPoint) {
+    init(position: CGPoint, width: CGFloat, aspectRatio: CGFloat, velocity: CGPoint, anchor: Anchor = .center) {
         self.position = position
         self.width = width
         self.velocity = velocity
         self.heightValue = .relativeToWidth(aspectRatio: aspectRatio)
         self.prevPosition = position
+        self.anchor = anchor
     }
     
-    init(position: CGPoint, width: CGFloat, height: CGFloat, velocity: CGPoint) {
+    init(position: CGPoint, width: CGFloat, height: CGFloat, velocity: CGPoint, anchor: Anchor = .center) {
         self.position = position
         self.width = width
         self.velocity = velocity
         self.heightValue = .relativeToContainerHeight(height: height)
         self.prevPosition = position
+        self.anchor = anchor
     }
     
     func update(deltaTime: TimeInterval, move: Bool = true) {
@@ -88,6 +97,17 @@ extension GameObject {
     }
     
     func frame(_ screenRatio: CGFloat) -> CGRect {
-        .init(origin: .init(x: (position.x - width * 0.5), y: position.y - height(screenRatio) * 0.5), size: .init(width: width, height: height(screenRatio)))
+        var y = position.y
+        
+        switch anchor {
+        case .center:
+            y -= height(screenRatio) * 0.5
+        case .centerTop:
+            break
+        case .centerBottom:
+            y -= height(screenRatio)
+        }
+        
+        return .init(origin: .init(x: (position.x - width * 0.5), y: y), size: .init(width: width, height: height(screenRatio)))
     }
 }

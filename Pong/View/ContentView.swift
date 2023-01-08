@@ -46,6 +46,7 @@ struct ContentView: View {
             GameView(game: gameViewModel(config1.messenger, config1.participantsConfig(opponent: config2.participantId, isFirst: true)))
                 .padding(.horizontal, 50)
             GameView(game: gameViewModel(config2.messenger, config2.participantsConfig(opponent: config1.participantId, isFirst: false)))
+                .padding(.horizontal, 250)
         }
         .background(Color.gray)
     }
@@ -100,57 +101,59 @@ struct GameView: View {
     @State var isMessage: Bool = false
     
     var body: some View {
-        ZStack {
-            VStack(spacing: 0) {
-                Text("\(game.score.opponent)")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                Text("\(game.score.player)")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .font(.largeTitle)
-            .fontWeight(.black)
-            .foregroundColor(.white)
-            .opacity(scoreOpacity)
-            .animation(.easeOut, value: game.gameState)
-            
-            VStack {
-                if !message.isEmpty {
-                    Text(message)
-                        .font(.largeTitle)
-                        .scaleEffect(1.5)
-                        .fontWeight(.black)
-                        .foregroundColor(.white)
-                        .transition(.scale.combined(with: .opacity))
+        GeometryReader { proxy in
+            ZStack {
+                VStack(spacing: 0) {
+                    Text("\(game.score.opponent)")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    Text("\(game.score.player)")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-            }
-            .animation(.spring(), value: game.gameState)
-            
-            Divider()
-                .frame(height: 2)
-                .overlay(linesColor.opacity(linesOpacity))
-            
-            Circle()
-                .strokeBorder(linesColor.opacity(linesOpacity),lineWidth: 2)
-                .frame(width: 100, height: 100)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .font(.largeTitle)
+                .fontWeight(.black)
+                .foregroundColor(.white)
+                .opacity(scoreOpacity)
+                .animation(.easeOut, value: game.gameState)
                 
-            
-            TimelineView(.animation) { timeline in
-                Canvas { context, size in
-                    game.update(timestamp: timeline.date.timeIntervalSinceReferenceDate, screenRatio: size.width/size.height)
-                    game.draw(context: context, canvasSize: size)
+                VStack {
+                    if !message.isEmpty {
+                        Text(message)
+                            .font(.largeTitle)
+                            .scaleEffect(1.5)
+                            .fontWeight(.black)
+                            .foregroundColor(.white)
+                            .transition(.scale.combined(with: .opacity))
+                    }
                 }
-                .gesture(DragGesture(minimumDistance: 0).onChanged({ drag in
-                    game.onDrag(dragLocation: drag.location, screenSize: UIScreen.main.bounds.size)
-                }))
+                .animation(.spring(), value: game.gameState)
+                
+                Divider()
+                    .frame(height: 2)
+                    .overlay(linesColor.opacity(linesOpacity))
+                
+                Circle()
+                    .strokeBorder(linesColor.opacity(linesOpacity),lineWidth: 2)
+                    .frame(width: 100, height: 100)
+                    
+                
+                TimelineView(.animation) { timeline in
+                    Canvas { context, size in
+                        game.update(timestamp: timeline.date.timeIntervalSinceReferenceDate, screenRatio: size.width/size.height)
+                        game.draw(context: context, canvasSize: size)
+                    }
+                    .gesture(DragGesture(minimumDistance: 0).onChanged({ drag in
+                        game.onDrag(dragLocation: drag.location, screenSize: proxy.size)
+                    }))
+                }
+                //.ignoresSafeArea()
+                
+                JoinToPlayView(gameState: game.gameState, action: { game.play() })
             }
-            .ignoresSafeArea()
-            
-            JoinToPlayView(gameState: game.gameState, action: { game.play() })
-        }
-        .background(Color.black)
-        .task {
-            await game.load()
+            .background(Color.black)
+            .task {
+                await game.load()
+            }
         }
     }
 }

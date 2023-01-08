@@ -88,9 +88,9 @@ class PongActivityController {
                 self.moveOpponent(x: 1 - message.playerPaddle)
                 
                 guard !self.isInControl else { return }
-                
+
                 let ballVelocity = message.ball.velocity * -1
-                
+
                 if self.ball.velocity != ballVelocity {
                     self.updateBall(position: 1 - message.ball.position, velocity: ballVelocity)
                 }
