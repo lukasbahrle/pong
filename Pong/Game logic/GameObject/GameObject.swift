@@ -15,58 +15,57 @@ enum Anchor {
 
 extension GameObject {
     static var ball: GameObject {
-        .init(position: .init(x: 0.5, y: 0.1), width: 0.05, aspectRatio: 1.0, velocity: .zero)
+        .init(position: .init(x: 0.5, y: 0.1), width: .fixed(20), aspectRatio: 1.0, velocity: .zero)
     }
     
     static func paddle(_ isPlayer: Bool, anchor: Anchor) -> GameObject {
         let width: CGFloat = 0.24
         let y: CGFloat = isPlayer ? 0.9 : 0.1
-        return .init(position: .init(x: 0.5, y: y), width: width, aspectRatio: 0.2, velocity: .zero, anchor: anchor)
+        return .init(position: .init(x: 0.5, y: y), width: .relativeToContainerWidth(width), height: .fixed(20), velocity: .zero, anchor: anchor)
     }
     
     static func wall(_ alignment: Wall.Alignment) -> GameObject {
-        let gameObject = GameObject(position: .zero, width: 1.0, height: 1.0, velocity: .zero)
+        let gameObject = GameObject(position: .zero, width: .relativeToContainerWidth(1.0), height: .relativeToContainerHeight(1.0), velocity: .zero)
         gameObject.position = alignment.position(gameObject)
         return gameObject
     }
 }
 
-enum GameObjectHeightValue {
-    case relativeToContainerHeight(height: CGFloat)
-    case relativeToWidth(aspectRatio: CGFloat)
+enum SizeDimension {
+    enum Width {
+        case relativeToContainerWidth(CGFloat)
+        case fixed(CGFloat)
+    }
     
-    var value: CGFloat {
-        switch self {
-        case let .relativeToContainerHeight(value):
-            return value
-        case let .relativeToWidth(value):
-            return value
-        }
+    enum Height {
+        case relativeToContainerHeight(CGFloat)
+        case relativeToWidth(CGFloat)
+        case fixed(CGFloat)
     }
 }
 
 class GameObject {
     var position: CGPoint
     var velocity: CGPoint
-    var width: CGFloat
     var anchor: Anchor
-    private let heightValue: GameObjectHeightValue
+    private let widthValue: SizeDimension.Width
+    private let heightValue: SizeDimension.Height
     private var prevPosition: CGPoint
     
-    init(position: CGPoint, width: CGFloat, aspectRatio: CGFloat, velocity: CGPoint, anchor: Anchor = .center) {
+    init(position: CGPoint, width: SizeDimension.Width, aspectRatio: CGFloat, velocity: CGPoint, anchor: Anchor = .center) {
         self.position = position
-        self.width = width
+        self.widthValue = width
         self.velocity = velocity
-        self.heightValue = .relativeToWidth(aspectRatio: aspectRatio)
+        self.heightValue = .relativeToWidth(aspectRatio)
         self.prevPosition = position
         self.anchor = anchor
     }
     
-    init(position: CGPoint, width: CGFloat, height: CGFloat, velocity: CGPoint, anchor: Anchor = .center) {
+    init(position: CGPoint, width: SizeDimension.Width, height: SizeDimension.Height, velocity: CGPoint, anchor: Anchor = .center) {
         self.position = position
-        self.width = width
+        self.widthValue = width
         self.velocity = velocity
-        self.heightValue = .relativeToContainerHeight(height: height)
+        self.heightValue = height
         self.prevPosition = position
         self.anchor = anchor
     }
@@ -87,27 +86,40 @@ class GameObject {
 }
 
 extension GameObject {
-    func height(_ screenRatio: CGFloat = 0) -> CGFloat {
+    func height(_ screenSize: CGSize = .zero) -> CGFloat {
+        let screenRatio = screenSize.width / screenSize.height
+        
         switch heightValue {
-        case .relativeToContainerHeight(height: let height):
-            return height
-        case .relativeToWidth(aspectRatio: let aspectRatio):
-            return aspectRatio * width * screenRatio
+        case .relativeToContainerHeight(let value):
+            return value
+        case .relativeToWidth(let aspectRatio):
+            return aspectRatio * width(screenSize) * screenRatio
+        case .fixed(let value):
+            return value / screenSize.height
         }
     }
     
-    func frame(_ screenRatio: CGFloat) -> CGRect {
+    func width(_ screenSize: CGSize = .zero) -> CGFloat {
+        switch widthValue {
+        case .fixed(let value):
+            return value / screenSize.width
+        case .relativeToContainerWidth(let value):
+            return value
+        }
+    }
+    
+    func frame(_ screenSize: CGSize) -> CGRect {
         var y = position.y
         
         switch anchor {
         case .center:
-            y -= height(screenRatio) * 0.5
+            y -= height(screenSize) * 0.5
         case .centerTop:
             break
         case .centerBottom:
-            y -= height(screenRatio)
+            y -= height(screenSize)
         }
         
-        return .init(origin: .init(x: (position.x - width * 0.5), y: y), size: .init(width: width, height: height(screenRatio)))
+        return .init(origin: .init(x: (position.x - width(screenSize) * 0.5), y: y), size: .init(width: width(screenSize), height: height(screenSize)))
     }
 }

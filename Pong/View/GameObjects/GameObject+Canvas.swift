@@ -25,8 +25,7 @@ extension GameObject {
     }
     
     private func rectInCanvas(_ canvasSize: CGSize) -> CGRect {
-        let screenRatio: CGFloat = canvasSize.width / canvasSize.height
-        let frame = frame(screenRatio)
+        let frame = frame(canvasSize)
         return CGRect(origin: CGPoint(x: frame.origin.x * canvasSize.width, y: frame.origin.y  * canvasSize.height), size: CGSize(width: frame.size.width * canvasSize.width, height: frame.size.height * canvasSize.height))
     }
     

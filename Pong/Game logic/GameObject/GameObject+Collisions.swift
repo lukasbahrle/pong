@@ -8,7 +8,7 @@
 import Foundation
 
 extension GameObject {
-    func collides(with gameObject: GameObject, screenRatio: CGFloat) -> Bool {
-        return frame(screenRatio).intersects(gameObject.frame(screenRatio))
+    func collides(with gameObject: GameObject, screenSize: CGSize) -> Bool {
+        return frame(screenSize).intersects(gameObject.frame(screenSize))
     }
 }
