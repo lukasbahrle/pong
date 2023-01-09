@@ -184,8 +184,8 @@ extension PongActivityController: GameInput {
         gameInput.updateBall(position: position, velocity: velocity)
     }
     
-    func update(timestamp: TimeInterval, screenRatio: CGFloat) {
-        gameInput.update(timestamp: timestamp, screenRatio: screenRatio)
+    func update(timestamp: TimeInterval, screenSize: CGSize) {
+        gameInput.update(timestamp: timestamp, screenSize: screenSize)
         
         guard let groupSession = groupSession else {
             return

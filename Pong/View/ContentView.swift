@@ -44,7 +44,6 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 0) {
             GameView(game: gameViewModel(config1.messenger, config1.participantsConfig(opponent: config2.participantId, isFirst: true)))
-                .padding(.horizontal, 50)
             GameView(game: gameViewModel(config2.messenger, config2.participantsConfig(opponent: config1.participantId, isFirst: false)))
                 .padding(.horizontal, 250)
         }
@@ -139,7 +138,7 @@ struct GameView: View {
                 
                 TimelineView(.animation) { timeline in
                     Canvas { context, size in
-                        game.update(timestamp: timeline.date.timeIntervalSinceReferenceDate, screenRatio: size.width/size.height)
+                        game.update(timestamp: timeline.date.timeIntervalSinceReferenceDate, screenSize: size)
                         game.draw(context: context, canvasSize: size)
                     }
                     .gesture(DragGesture(minimumDistance: 0).onChanged({ drag in

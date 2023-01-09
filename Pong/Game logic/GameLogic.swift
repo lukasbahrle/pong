@@ -72,7 +72,7 @@ class GameLogic: GameInput, GameOutput {
 //        ball.velocity = velocity
     }
     
-    func update(timestamp: TimeInterval, screenRatio: CGFloat) {
+    func update(timestamp: TimeInterval, screenSize: CGSize) {
         guard lastUpdate > 0 else {
             lastUpdate = timestamp
             return
@@ -89,10 +89,12 @@ class GameLogic: GameInput, GameOutput {
             return
         }
         
-        checkCollisions(screenRatio: screenRatio)
+        checkCollisions(screenSize: screenSize)
     }
     
-    private func checkCollisions(screenRatio: CGFloat) {
+    private func checkCollisions(screenSize: CGSize) {
+        let screenRatio = screenSize.width / screenSize.height
+        
         if ball.collides(with: player, screenRatio: screenRatio), ball.position.y < player.position.y {
             ball.position.y = player.frame(screenRatio).minY - ball.height(screenRatio) * 0.5
             ball.velocity.y *= -1

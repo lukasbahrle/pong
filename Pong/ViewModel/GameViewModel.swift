@@ -23,7 +23,7 @@ protocol GameInput {
     func play(startDirection: StartDirection?)
     func movePlayer(x: CGFloat)
     func moveOpponent(x: CGFloat)
-    func update(timestamp: TimeInterval, screenRatio: CGFloat)
+    func update(timestamp: TimeInterval, screenSize: CGSize)
     func updateBall(position: CGPoint, velocity: CGPoint)
 }
 
@@ -95,8 +95,8 @@ class GameViewModel: ObservableObject {
         gameController.onDrag(dragLocation: dragLocation, screenSize: screenSize)
     }
     
-    func update(timestamp: TimeInterval, screenRatio: CGFloat) {
-        gameInput.update(timestamp: timestamp, screenRatio: screenRatio)
+    func update(timestamp: TimeInterval, screenSize: CGSize) {
+        gameInput.update(timestamp: timestamp, screenSize: screenSize)
     }
     
     private func onGoal() {

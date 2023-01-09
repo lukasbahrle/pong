@@ -26,8 +26,8 @@ extension GameViewModel {
 
 private extension GameOutput {
     func draw(context: GraphicsContext, canvasSize: CGSize, drawBall: Bool) {
-        if drawBall { ball.draw(context: context, canvasSize: canvasSize, color: .white, path: .ball) }
         player.draw(context: context, canvasSize: canvasSize, color: .white, path: .paddle)
         opponent.draw(context: context, canvasSize: canvasSize, color: .white, path: .paddle)
+        if drawBall { ball.draw(context: context, canvasSize: canvasSize, color: .red, path: .ball) }
     }
 }
