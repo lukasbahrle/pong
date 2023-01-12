@@ -20,6 +20,7 @@ protocol PongGroupActivity {
 protocol PongGroupSession {
     var localPongParticipant: PongParticipant { get }
     var statePublisher: AnyPublisher<GroupSession<PongActivity>.State, Never> { get }
+    var state: GroupSession<PongActivity>.State { get }
     func messenger(deliveryMode: GroupSessionMessenger.DeliveryMode) -> PongGroupSessionMessenger
     var activeParticipantsPublisher: AnyPublisher<Set<PongParticipant>, Never> { get }
     func join()
@@ -139,6 +140,8 @@ struct MockPongGroupSession: PongGroupSession {
     var statePublisher: AnyPublisher<GroupSession<PongActivity>.State, Never> {
         Just(.joined).eraseToAnyPublisher()
     }
+    
+    var state: GroupSession<PongActivity>.State { .joined }
     
     var activeParticipantsPublisher: AnyPublisher<Set<PongParticipant>, Never> {
         participantsConfig.isFirst ? .first(local: participantsConfig.local, opponent: participantsConfig.opponent) : .second(local: participantsConfig.local, opponent: participantsConfig.opponent)

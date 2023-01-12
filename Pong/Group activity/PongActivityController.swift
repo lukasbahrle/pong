@@ -36,6 +36,12 @@ class PongActivityController {
         }
     }
     
+    private var isActive: Bool {
+        guard let groupSession else { return false }
+        
+        return groupSession.state == .joined
+    }
+    
     init(groupActivity: PongGroupActivity, gameInput: GameInput, gameOutput: GameOutput, setStateControllerIsEnabled: @escaping (Bool) -> Void, updateStateController: @escaping (GameState, (Int, Int)) -> Void) {
         self.groupActivity = groupActivity
         self.gameInput = gameInput
@@ -145,6 +151,8 @@ extension PongActivityController {
         tasks.forEach { $0.cancel() }
         tasks = []
         subscriptions = []
+        playersSubject.value = (nil, nil)
+        
         if groupSession != nil {
             groupSession?.leave()
             groupSession = nil
@@ -168,8 +176,16 @@ extension PongActivityController: GameInput {
         gameInput.ready()
     }
     
-    func play(startDirection: StartDirection?) {
-        gameInput.play(startDirection: isInControl ? .towardsPlayer : .towardsOpponent)
+    func play(startDirection: StartDirection? = nil) {
+        if !isActive {
+            self.startSharing()
+        }
+        else if isInControl {
+            gameInput.play(startDirection: isInControl ? .towardsPlayer : .towardsOpponent)
+        }
+        else if let messenger {
+            messenger.send(GameStateMessage(score: [:], state: .playing), completion: { _ in })
+        }
     }
     
     func movePlayer(x: CGFloat) {
