@@ -105,7 +105,15 @@ class PongActivityController {
         
         messenger.messages(of: GameStateMessage.self)
             .sink { [weak self] message in
-                guard let self, !self.isInControl, let playerId = self.playersSubject.value.player, let playerScore = message.score[playerId], let opponentId = self.playersSubject.value.opponent, let opponentScore = message.score[opponentId] else { return }
+                
+                guard let self else { return }
+                
+                guard !self.isInControl else {
+                    if message.state == .playing { self.play() }
+                    return
+                }
+                
+                guard let playerId = self.playersSubject.value.player, let playerScore = message.score[playerId], let opponentId = self.playersSubject.value.opponent, let opponentScore = message.score[opponentId] else { return }
                 
                 self.updateStateController(message.state, (playerScore, opponentScore))
                 
