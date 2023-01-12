@@ -37,7 +37,7 @@ class GameLogic: GameInput, GameOutput {
             switch state {
             case .playing:
                 self.ball.position = .init(x: 0.5, y: 0.5)
-                self.ball.velocity = .init(x: 0.0, y: 0.2)
+                self.ball.velocity = .init(x: 0.2, y: 0.5)
             default:
                 break
             }
@@ -68,8 +68,8 @@ class GameLogic: GameInput, GameOutput {
     }
     
     func updateBall(position: CGPoint, velocity: CGPoint) {
-//        ball.position = position
-//        ball.velocity = velocity
+        ball.position = position
+        ball.velocity = velocity
     }
     
     func update(timestamp: TimeInterval, screenSize: CGSize) {
