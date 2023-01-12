@@ -41,13 +41,32 @@ struct ContentView: View {
         return GameViewModel(gameInput: activityController, gameOutput: activityController, gameController: activityController)
     }
     
-    var body: some View {
-        VStack(spacing: 0) {
-            GameView(game: gameViewModel(config1.messenger, config1.participantsConfig(opponent: config2.participantId, isFirst: true)))
-            GameView(game: gameViewModel(config2.messenger, config2.participantsConfig(opponent: config1.participantId, isFirst: false)))
-                .padding(.horizontal, 250)
+    var prodGameViewModel: () -> GameViewModel = {
+        
+        let stateController = GameStateController(score: .initialScore, target: 3)
+        let disableableStateController = DisableableGameStateController(gameStateController: stateController)
+        let logic = GameLogic(stateController: disableableStateController)
+
+
+        let activityController = PongActivityController(groupActivity: ProdPongGroupActivity(), gameInput: logic, gameOutput: logic) { isEnabled in
+            disableableStateController.isEnabled = isEnabled
+        } updateStateController: { state, score in
+            stateController.update(state, score: score)
         }
-        .background(Color.gray)
+        
+        return GameViewModel(gameInput: activityController, gameOutput: activityController, gameController: activityController)
+    }
+    
+    
+    
+    var body: some View {
+//        VStack(spacing: 0) {
+//            GameView(game: gameViewModel(config1.messenger, config1.participantsConfig(opponent: config2.participantId, isFirst: true)))
+//            GameView(game: gameViewModel(config2.messenger, config2.participantsConfig(opponent: config1.participantId, isFirst: false)))
+//                .padding(.horizontal, 250)
+//        }
+//        .background(Color.gray)
+      GameView(game: prodGameViewModel())
     }
 }
 
@@ -71,7 +90,7 @@ struct GameView: View {
         case .playing:
             return 1.0
         default:
-            return 0
+            return 0.0
         }
     }
     
@@ -115,18 +134,6 @@ struct GameView: View {
                 .opacity(scoreOpacity)
                 .animation(.easeOut, value: game.gameState)
                 
-                VStack {
-                    if !message.isEmpty {
-                        Text(message)
-                            .font(.largeTitle)
-                            .scaleEffect(1.5)
-                            .fontWeight(.black)
-                            .foregroundColor(.white)
-                            .transition(.scale.combined(with: .opacity))
-                    }
-                }
-                .animation(.spring(), value: game.gameState)
-                
                 Divider()
                     .frame(height: 2)
                     .overlay(linesColor.opacity(linesOpacity))
@@ -135,6 +142,17 @@ struct GameView: View {
                     .strokeBorder(linesColor.opacity(linesOpacity),lineWidth: 2)
                     .frame(width: 100, height: 100)
                     
+                VStack {
+                    if !message.isEmpty {
+                        Text(message)
+                            .font(.largeTitle)
+                            .scaleEffect(1.5)
+                            .fontWeight(.black)
+                            .foregroundColor(.blue)
+                            .transition(.scale.combined(with: .opacity))
+                    }
+                }
+                .animation(.spring(), value: game.gameState)
                 
                 TimelineView(.animation) { timeline in
                     Canvas { context, size in
@@ -145,7 +163,6 @@ struct GameView: View {
                         game.onDrag(dragLocation: drag.location, screenSize: proxy.size)
                     }))
                 }
-                //.ignoresSafeArea()
                 
                 JoinToPlayView(gameState: game.gameState, action: { game.play() })
             }
