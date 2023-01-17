@@ -28,6 +28,10 @@
 		DADC0D93294854ED00B490EE /* Wall.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D92294854ED00B490EE /* Wall.swift */; };
 		F5BC0B762966F9980065AD62 /* Interfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BC0B752966F9980065AD62 /* Interfaces.swift */; };
 		F5BC0B7829670BA00065AD62 /* SimpleGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BC0B7729670BA00065AD62 /* SimpleGameController.swift */; };
+		F5D64C4129766EBA0066EAF5 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D64C4029766EBA0066EAF5 /* GameView.swift */; };
+		F5D64C46297671F90066EAF5 /* GroupActivity+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D64C45297671F90066EAF5 /* GroupActivity+Mock.swift */; };
+		F5D64C48297672230066EAF5 /* GroupActivity+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D64C47297672230066EAF5 /* GroupActivity+Live.swift */; };
+		F5D64C4A297672F20066EAF5 /* GameUpdateMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D64C49297672F20066EAF5 /* GameUpdateMessage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +58,10 @@
 		DADC0D92294854ED00B490EE /* Wall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wall.swift; sourceTree = "<group>"; };
 		F5BC0B752966F9980065AD62 /* Interfaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interfaces.swift; sourceTree = "<group>"; };
 		F5BC0B7729670BA00065AD62 /* SimpleGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleGameController.swift; sourceTree = "<group>"; };
+		F5D64C4029766EBA0066EAF5 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		F5D64C45297671F90066EAF5 /* GroupActivity+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GroupActivity+Mock.swift"; sourceTree = "<group>"; };
+		F5D64C47297672230066EAF5 /* GroupActivity+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GroupActivity+Live.swift"; sourceTree = "<group>"; };
+		F5D64C49297672F20066EAF5 /* GameUpdateMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUpdateMessage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,8 +78,8 @@
 		DA41CF1D294EE42100CE7275 /* Group activity */ = {
 			isa = PBXGroup;
 			children = (
+				F5D64C422976719A0066EAF5 /* Group Activity */,
 				DAD4F0592962447200B88CC2 /* Messages */,
-				DA41CF1E294EE44900CE7275 /* PongActivity.swift */,
 				DA41CF21294EE57100CE7275 /* PongActivityController.swift */,
 			);
 			path = "Group activity";
@@ -129,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				DAD4F05A2962449A00B88CC2 /* GameStateMessage.swift */,
+				F5D64C49297672F20066EAF5 /* GameUpdateMessage.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -148,8 +157,8 @@
 				DADC0D892946761F00B490EE /* GameObjects */,
 				DA9F94862943D24900595940 /* ContentView.swift */,
 				F5BC0B7729670BA00065AD62 /* SimpleGameController.swift */,
-				F5BC0B752966F9980065AD62 /* Interfaces.swift */,
 				DAD3AB20295EDAFA0000470C /* JoinToPlayView.swift */,
+				F5D64C4029766EBA0066EAF5 /* GameView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -190,6 +199,33 @@
 				DADC0D92294854ED00B490EE /* Wall.swift */,
 			);
 			path = GameObject;
+			sourceTree = "<group>";
+		};
+		F5D64C422976719A0066EAF5 /* Group Activity */ = {
+			isa = PBXGroup;
+			children = (
+				F5D64C44297671BA0066EAF5 /* Mocks */,
+				F5D64C43297671AF0066EAF5 /* Live */,
+				F5BC0B752966F9980065AD62 /* Interfaces.swift */,
+				DA41CF1E294EE44900CE7275 /* PongActivity.swift */,
+			);
+			path = "Group Activity";
+			sourceTree = "<group>";
+		};
+		F5D64C43297671AF0066EAF5 /* Live */ = {
+			isa = PBXGroup;
+			children = (
+				F5D64C47297672230066EAF5 /* GroupActivity+Live.swift */,
+			);
+			path = Live;
+			sourceTree = "<group>";
+		};
+		F5D64C44297671BA0066EAF5 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				F5D64C45297671F90066EAF5 /* GroupActivity+Mock.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,10 +299,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				DADC0D782944D17100B490EE /* GameScore.swift in Sources */,
+				F5D64C46297671F90066EAF5 /* GroupActivity+Mock.swift in Sources */,
 				DADC0D762944CBF000B490EE /* GameLogic.swift in Sources */,
 				DA9F94872943D24900595940 /* ContentView.swift in Sources */,
 				F5BC0B762966F9980065AD62 /* Interfaces.swift in Sources */,
 				DADC0D93294854ED00B490EE /* Wall.swift in Sources */,
+				F5D64C48297672230066EAF5 /* GroupActivity+Live.swift in Sources */,
 				F5BC0B7829670BA00065AD62 /* SimpleGameController.swift in Sources */,
 				DADC0D8B2946764900B490EE /* GameObject+Canvas.swift in Sources */,
 				DADC0D8429466EE500B490EE /* CGPoint+Arithmetic.swift in Sources */,
@@ -276,8 +314,10 @@
 				DADC0D8F2947D3D700B490EE /* GameObject+Collisions.swift in Sources */,
 				DA78AA15295B9B3C00B5B514 /* GameStateController.swift in Sources */,
 				DADC0D8D2946796900B490EE /* GameViewModel+Draw.swift in Sources */,
+				F5D64C4129766EBA0066EAF5 /* GameView.swift in Sources */,
 				DA41CF1F294EE44900CE7275 /* PongActivity.swift in Sources */,
 				DAD4F05B2962449A00B88CC2 /* GameStateMessage.swift in Sources */,
+				F5D64C4A297672F20066EAF5 /* GameUpdateMessage.swift in Sources */,
 				DA41CF22294EE57100CE7275 /* PongActivityController.swift in Sources */,
 				DAD3AB21295EDAFA0000470C /* JoinToPlayView.swift in Sources */,
 				DADC0D7A2944D1AD00B490EE /* GameObject.swift in Sources */,

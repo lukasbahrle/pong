@@ -222,6 +222,7 @@ extension PongActivityController: GameInput {
 }
 
 // MARK: - GameOutput
+
 extension PongActivityController: GameOutput {
     var ball: GameObject {
         gameOutput.ball
