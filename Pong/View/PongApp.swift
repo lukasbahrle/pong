@@ -9,19 +9,25 @@ import SwiftUI
 
 @main
 struct PongApp: App {
-    private let test = false
+    private enum GameMode {
+        case groupActivity
+        case groupActivityTest
+        case local
+    }
+    
+    private let mode: GameMode = .local
     
     var body: some Scene {
         WindowGroup {
-            if test {
+            switch mode {
+            case .groupActivity:
+                GameView(game: Factory.groupActivity())
+            case .groupActivityTest:
                 let (local, remote) = Factory.groupActivityTest()
                 GameViewGroupActivityTest(local: local, remote: remote)
-            }
-            else {
-                GameView(game: Factory.groupActivity())
+            case .local:
+                GameView(game: Factory.local())
             }
         }
     }
 }
-
-
