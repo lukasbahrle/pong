@@ -13,7 +13,6 @@
 		DA9F94852943D24900595940 /* PongApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F94842943D24900595940 /* PongApp.swift */; };
 		DA9F94872943D24900595940 /* GameViewGroupActivityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F94862943D24900595940 /* GameViewGroupActivityTest.swift */; };
 		DA9F94892943D24B00595940 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA9F94882943D24B00595940 /* Assets.xcassets */; };
-		DA9F948C2943D24B00595940 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA9F948B2943D24B00595940 /* Preview Assets.xcassets */; };
 		DAD3AB21295EDAFA0000470C /* JoinToPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3AB20295EDAFA0000470C /* JoinToPlayView.swift */; };
 		DAD3AB24295EDC4C0000470C /* ActivitySharingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3AB23295EDC4C0000470C /* ActivitySharingViewController.swift */; };
 		DAD4F05B2962449A00B88CC2 /* GameStateMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD4F05A2962449A00B88CC2 /* GameStateMessage.swift */; };
@@ -47,7 +46,6 @@
 		DA9F94842943D24900595940 /* PongApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PongApp.swift; sourceTree = "<group>"; };
 		DA9F94862943D24900595940 /* GameViewGroupActivityTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewGroupActivityTest.swift; sourceTree = "<group>"; };
 		DA9F94882943D24B00595940 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		DA9F948B2943D24B00595940 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DAD3AB20295EDAFA0000470C /* JoinToPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinToPlayView.swift; sourceTree = "<group>"; };
 		DAD3AB23295EDC4C0000470C /* ActivitySharingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySharingViewController.swift; sourceTree = "<group>"; };
 		DAD4F05A2962449A00B88CC2 /* GameStateMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateMessage.swift; sourceTree = "<group>"; };
@@ -113,24 +111,15 @@
 			isa = PBXGroup;
 			children = (
 				DA41CF20294EE47400CE7275 /* Pong.entitlements */,
+				DA9F94882943D24B00595940 /* Assets.xcassets */,
 				DA41CF1D294EE42100CE7275 /* Group activity */,
 				DADC0D902947D3E900B490EE /* Game logic */,
 				DADC0D862946733900B490EE /* ViewModel */,
 				DADC0D852946731100B490EE /* View */,
 				F56076B3297AC4BC009645F1 /* Factory */,
 				DADC0D8229466EB500B490EE /* Extensions */,
-				DA9F94882943D24B00595940 /* Assets.xcassets */,
-				DA9F948A2943D24B00595940 /* Preview Content */,
 			);
 			path = Pong;
-			sourceTree = "<group>";
-		};
-		DA9F948A2943D24B00595940 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				DA9F948B2943D24B00595940 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		DAD3AB22295EDC3D0000470C /* Group Activity */ = {
@@ -338,7 +327,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA9F948C2943D24B00595940 /* Preview Assets.xcassets in Resources */,
 				DA9F94892943D24B00595940 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -501,11 +489,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = Pong/Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 8B7VL5JHU3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -532,11 +520,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = Pong/Pong.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Pong/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 8B7VL5JHU3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
