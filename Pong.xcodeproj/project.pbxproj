@@ -113,7 +113,6 @@
 			isa = PBXGroup;
 			children = (
 				DA41CF20294EE47400CE7275 /* Pong.entitlements */,
-				F56076B8297AEC2A009645F1 /* Game controller */,
 				DA41CF1D294EE42100CE7275 /* Group activity */,
 				DADC0D902947D3E900B490EE /* Game logic */,
 				DADC0D862946733900B490EE /* ViewModel */,
@@ -189,6 +188,7 @@
 		DADC0D902947D3E900B490EE /* Game logic */ = {
 			isa = PBXGroup;
 			children = (
+				F56076B8297AEC2A009645F1 /* Game controller */,
 				DADC0D912947D40600B490EE /* GameObject */,
 				DADC0D772944D17100B490EE /* GameScore.swift */,
 				DADC0D752944CBF000B490EE /* GameLogic.swift */,
