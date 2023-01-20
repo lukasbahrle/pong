@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TestLocalAndRemoteView: View {
+struct GameViewGroupActivityTest: View {
     let local: GameViewModel
     let remote: GameViewModel
     

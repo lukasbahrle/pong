@@ -14,11 +14,11 @@ struct PongApp: App {
     var body: some Scene {
         WindowGroup {
             if test {
-                let (local, remote) = GameViewModelFactory.makeLocalAndRemoteTest()
-                TestLocalAndRemoteView(local: local, remote: remote)
+                let (local, remote) = Factory.groupActivityTest()
+                GameViewGroupActivityTest(local: local, remote: remote)
             }
             else {
-                GameView(game: GameViewModelFactory.make())
+                GameView(game: Factory.groupActivity())
             }
         }
     }

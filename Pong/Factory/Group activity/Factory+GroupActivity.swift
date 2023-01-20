@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum GameViewModelFactory {
-    @MainActor static func make(_ groupActivity: PongGroupActivity = LivePongGroupActivity()) -> GameViewModel {
-        let stateController = GameStateController(score: .initialScore, target: 3)
+extension Factory {
+    @MainActor static func groupActivity(_ groupActivity: PongGroupActivity = LivePongGroupActivity()) -> GameViewModel {
+        let stateController = Self.stateController()
         let disableableStateController = DisableableGameStateController(gameStateController: stateController)
         let logic = GameLogic(stateController: disableableStateController)
-
+        
         let activityController = PongActivityController(groupActivity: groupActivity, gameInput: logic, gameOutput: logic) { isEnabled in
             disableableStateController.isEnabled = isEnabled
         } updateStateController: { state, score in

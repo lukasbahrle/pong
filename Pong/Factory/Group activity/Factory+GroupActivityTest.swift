@@ -1,14 +1,15 @@
 //
-//  GameViewModelFactory+Test.swift
+//  Factory+GroupActivityTest.swift
 //  Pong
 //
 //  Created by Bahrle, Lukas on 20/1/23.
 //
 
 import Foundation
+import Combine
 
-extension GameViewModelFactory {
-    @MainActor static func makeLocalAndRemoteTest(_ gameViewModelFactory: @MainActor (PongGroupActivity) -> GameViewModel = Self.make) -> (local: GameViewModel, remote: GameViewModel) {
+extension Factory {
+    @MainActor static func groupActivityTest(_ gameViewModelFactory: @MainActor (PongGroupActivity) -> GameViewModel = Self.groupActivity) -> (local: GameViewModel, remote: GameViewModel) {
         
         let localConfig = MockPongGroupSessionConfiguration()
         let remoteConfig = MockPongGroupSessionConfiguration()

@@ -1,14 +1,14 @@
 //
-//  SimpleGameController.swift
+//  TwoLocalPlayersGameController.swift
 //  Pong
 //
-//  Created by Bahrle, Lukas on 5/1/23.
+//  Created by Bahrle, Lukas on 20/1/23.
 //
 
 import Foundation
 import Combine
 
-class SimpleGameController: GameController {
+class LocalGameController: GameController {
     var movePlayerPublisher: AnyPublisher<CGFloat, Never> {
         movePlayerSubject.eraseToAnyPublisher()
     }
