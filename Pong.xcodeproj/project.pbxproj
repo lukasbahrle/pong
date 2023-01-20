@@ -11,7 +11,7 @@
 		DA41CF22294EE57100CE7275 /* PongActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA41CF21294EE57100CE7275 /* PongActivityController.swift */; };
 		DA78AA15295B9B3C00B5B514 /* GameStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA78AA14295B9B3C00B5B514 /* GameStateController.swift */; };
 		DA9F94852943D24900595940 /* PongApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F94842943D24900595940 /* PongApp.swift */; };
-		DA9F94872943D24900595940 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F94862943D24900595940 /* ContentView.swift */; };
+		DA9F94872943D24900595940 /* TestLocalAndRemoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F94862943D24900595940 /* TestLocalAndRemoteView.swift */; };
 		DA9F94892943D24B00595940 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA9F94882943D24B00595940 /* Assets.xcassets */; };
 		DA9F948C2943D24B00595940 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA9F948B2943D24B00595940 /* Preview Assets.xcassets */; };
 		DAD3AB21295EDAFA0000470C /* JoinToPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3AB20295EDAFA0000470C /* JoinToPlayView.swift */; };
@@ -26,6 +26,8 @@
 		DADC0D8D2946796900B490EE /* GameViewModel+Draw.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D8C2946796900B490EE /* GameViewModel+Draw.swift */; };
 		DADC0D8F2947D3D700B490EE /* GameObject+Collisions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D8E2947D3D700B490EE /* GameObject+Collisions.swift */; };
 		DADC0D93294854ED00B490EE /* Wall.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC0D92294854ED00B490EE /* Wall.swift */; };
+		F56076B5297AC4D4009645F1 /* GameViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56076B4297AC4D4009645F1 /* GameViewModelFactory.swift */; };
+		F56076B7297AC505009645F1 /* GameViewModelFactory+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56076B6297AC505009645F1 /* GameViewModelFactory+Test.swift */; };
 		F5BC0B762966F9980065AD62 /* Interfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BC0B752966F9980065AD62 /* Interfaces.swift */; };
 		F5BC0B7829670BA00065AD62 /* SimpleGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BC0B7729670BA00065AD62 /* SimpleGameController.swift */; };
 		F5D64C4129766EBA0066EAF5 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D64C4029766EBA0066EAF5 /* GameView.swift */; };
@@ -41,7 +43,7 @@
 		DA78AA14295B9B3C00B5B514 /* GameStateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateController.swift; sourceTree = "<group>"; };
 		DA9F94812943D24900595940 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA9F94842943D24900595940 /* PongApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PongApp.swift; sourceTree = "<group>"; };
-		DA9F94862943D24900595940 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		DA9F94862943D24900595940 /* TestLocalAndRemoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLocalAndRemoteView.swift; sourceTree = "<group>"; };
 		DA9F94882943D24B00595940 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA9F948B2943D24B00595940 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DAD3AB20295EDAFA0000470C /* JoinToPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinToPlayView.swift; sourceTree = "<group>"; };
@@ -56,6 +58,8 @@
 		DADC0D8C2946796900B490EE /* GameViewModel+Draw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameViewModel+Draw.swift"; sourceTree = "<group>"; };
 		DADC0D8E2947D3D700B490EE /* GameObject+Collisions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameObject+Collisions.swift"; sourceTree = "<group>"; };
 		DADC0D92294854ED00B490EE /* Wall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wall.swift; sourceTree = "<group>"; };
+		F56076B4297AC4D4009645F1 /* GameViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelFactory.swift; sourceTree = "<group>"; };
+		F56076B6297AC505009645F1 /* GameViewModelFactory+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameViewModelFactory+Test.swift"; sourceTree = "<group>"; };
 		F5BC0B752966F9980065AD62 /* Interfaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interfaces.swift; sourceTree = "<group>"; };
 		F5BC0B7729670BA00065AD62 /* SimpleGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleGameController.swift; sourceTree = "<group>"; };
 		F5D64C4029766EBA0066EAF5 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -110,7 +114,6 @@
 				DADC0D862946733900B490EE /* ViewModel */,
 				DADC0D852946731100B490EE /* View */,
 				DADC0D8229466EB500B490EE /* Extensions */,
-				DA9F94842943D24900595940 /* PongApp.swift */,
 				DA9F94882943D24B00595940 /* Assets.xcassets */,
 				DA9F948A2943D24B00595940 /* Preview Content */,
 			);
@@ -153,12 +156,10 @@
 		DADC0D852946731100B490EE /* View */ = {
 			isa = PBXGroup;
 			children = (
-				DAD3AB22295EDC3D0000470C /* Group Activity */,
-				DADC0D892946761F00B490EE /* GameObjects */,
-				DA9F94862943D24900595940 /* ContentView.swift */,
+				F5D64C4C297674A50066EAF5 /* GameView */,
+				DA9F94862943D24900595940 /* TestLocalAndRemoteView.swift */,
 				F5BC0B7729670BA00065AD62 /* SimpleGameController.swift */,
-				DAD3AB20295EDAFA0000470C /* JoinToPlayView.swift */,
-				F5D64C4029766EBA0066EAF5 /* GameView.swift */,
+				DA9F94842943D24900595940 /* PongApp.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -166,6 +167,7 @@
 		DADC0D862946733900B490EE /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				F56076B3297AC4BC009645F1 /* Factory */,
 				DADC0D872946735800B490EE /* GameViewModel.swift */,
 			);
 			path = ViewModel;
@@ -201,6 +203,15 @@
 			path = GameObject;
 			sourceTree = "<group>";
 		};
+		F56076B3297AC4BC009645F1 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				F56076B4297AC4D4009645F1 /* GameViewModelFactory.swift */,
+				F56076B6297AC505009645F1 /* GameViewModelFactory+Test.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
 		F5D64C422976719A0066EAF5 /* Group Activity */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,6 +237,17 @@
 				F5D64C45297671F90066EAF5 /* GroupActivity+Mock.swift */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		F5D64C4C297674A50066EAF5 /* GameView */ = {
+			isa = PBXGroup;
+			children = (
+				DAD3AB22295EDC3D0000470C /* Group Activity */,
+				DADC0D892946761F00B490EE /* GameObjects */,
+				F5D64C4029766EBA0066EAF5 /* GameView.swift */,
+				DAD3AB20295EDAFA0000470C /* JoinToPlayView.swift */,
+			);
+			path = GameView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,7 +323,7 @@
 				DADC0D782944D17100B490EE /* GameScore.swift in Sources */,
 				F5D64C46297671F90066EAF5 /* GroupActivity+Mock.swift in Sources */,
 				DADC0D762944CBF000B490EE /* GameLogic.swift in Sources */,
-				DA9F94872943D24900595940 /* ContentView.swift in Sources */,
+				DA9F94872943D24900595940 /* TestLocalAndRemoteView.swift in Sources */,
 				F5BC0B762966F9980065AD62 /* Interfaces.swift in Sources */,
 				DADC0D93294854ED00B490EE /* Wall.swift in Sources */,
 				F5D64C48297672230066EAF5 /* GroupActivity+Live.swift in Sources */,
@@ -313,10 +335,12 @@
 				DA9F94852943D24900595940 /* PongApp.swift in Sources */,
 				DADC0D8F2947D3D700B490EE /* GameObject+Collisions.swift in Sources */,
 				DA78AA15295B9B3C00B5B514 /* GameStateController.swift in Sources */,
+				F56076B7297AC505009645F1 /* GameViewModelFactory+Test.swift in Sources */,
 				DADC0D8D2946796900B490EE /* GameViewModel+Draw.swift in Sources */,
 				F5D64C4129766EBA0066EAF5 /* GameView.swift in Sources */,
 				DA41CF1F294EE44900CE7275 /* PongActivity.swift in Sources */,
 				DAD4F05B2962449A00B88CC2 /* GameStateMessage.swift in Sources */,
+				F56076B5297AC4D4009645F1 /* GameViewModelFactory.swift in Sources */,
 				F5D64C4A297672F20066EAF5 /* GameUpdateMessage.swift in Sources */,
 				DA41CF22294EE57100CE7275 /* PongActivityController.swift in Sources */,
 				DAD3AB21295EDAFA0000470C /* JoinToPlayView.swift in Sources */,

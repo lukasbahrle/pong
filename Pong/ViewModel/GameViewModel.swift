@@ -11,11 +11,8 @@ import Combine
 protocol GameController {
     var movePlayerPublisher: AnyPublisher<CGFloat, Never> { get }
     var moveOpponentPublisher: AnyPublisher<CGFloat, Never> { get }
-    
     func onDrag(dragLocation: CGPoint, screenSize: CGSize)
 }
-
-
 
 protocol GameInput {
     func load() async
