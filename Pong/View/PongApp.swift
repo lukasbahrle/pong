@@ -15,7 +15,7 @@ struct PongApp: App {
         case local
     }
     
-    private let mode: GameMode = .local
+    private let mode: GameMode = .groupActivity
     
     var body: some Scene {
         WindowGroup {
