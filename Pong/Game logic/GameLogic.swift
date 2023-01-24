@@ -9,7 +9,6 @@ import Foundation
 import Combine
 
 class GameLogic: GameInput, GameOutput {
-    
     var statePublisher: AnyPublisher<(state: GameState, score: (player: Int, opponent: Int)), Never> {
         stateController.publisher
             .eraseToAnyPublisher()

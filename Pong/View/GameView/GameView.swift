@@ -33,15 +33,6 @@ struct GameView: View {
     
     private let linesColor = Color(white: 0.2)
     
-    private var scoreScale: Double {
-        switch game.gameState {
-        case .goal:
-            return 1.4
-        default:
-            return 1.2
-        }
-    }
-    
     private var message: String {
         switch game.gameState {
         case .goal:
@@ -52,8 +43,6 @@ struct GameView: View {
             return ""
         }
     }
-    
-    @State var isMessage: Bool = false
     
     var body: some View {
         GeometryReader { proxy in
