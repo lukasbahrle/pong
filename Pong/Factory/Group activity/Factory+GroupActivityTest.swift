@@ -18,8 +18,8 @@ extension Factory {
         
         let remoteGroupActivity = MockPongGroupActivity(messenger: {remoteConfig.messenger}, participantsConfig: remoteConfig.participantsConfig(opponent: localConfig.participantId, isFirst: false))
         
-        localConfig.messenger.receiver = remoteConfig.messenger
-        remoteConfig.messenger.receiver = localConfig.messenger
+        localConfig.messenger.output = remoteConfig.messenger
+        remoteConfig.messenger.output = localConfig.messenger
         
         return (local: gameViewModelFactory(localGroupActivity), remote: gameViewModelFactory(remoteGroupActivity))
     }

@@ -63,7 +63,7 @@ extension AnyPublisher<Set<PongParticipant>, Never> {
 }
 
 class MockPongGroupSessionMessenger: PongGroupSessionMessenger {
-    var receiver: MockPongGroupSessionMessenger? = nil
+    var output: MockPongGroupSessionMessenger? = nil
     
     var subjects: [String: any Subject] = [:]
     
@@ -73,7 +73,7 @@ class MockPongGroupSessionMessenger: PongGroupSessionMessenger {
     
     func send<Message>(_ message: Message, completion: @escaping (Error?) -> Void) where Message : Decodable, Message : Encodable {
         
-        guard let subject = receiver?.subjects[String(describing: Message.self)] as? PassthroughSubject<Message, Never> else {
+        guard let subject = output?.subjects[String(describing: Message.self)] as? PassthroughSubject<Message, Never> else {
             return
         }
         subject.send(message)
