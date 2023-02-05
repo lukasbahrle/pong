@@ -8,7 +8,7 @@
 
 This sample app uses GameActivities to handle the communication between two players of a simple Pong game.
 
-<img src="https://github.com/lukasbahrle/pong/blob/main/pong.gif">
+<img src="https://github.com/lukasbahrle/pong/blob/main/pong.gif" width=240>
 
 If you would like to have more details, please check:
 
