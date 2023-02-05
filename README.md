@@ -8,6 +8,8 @@
 
 This sample app uses GameActivities to handle the communication between two players of a simple Pong game.
 
+<img src="https://github.com/lukasbahrle/pong/blob/main/pong.gif">
+
 If you would like to have more details, please check:
 
 - https://weakself.io/posts/Multiplayer%20game/
